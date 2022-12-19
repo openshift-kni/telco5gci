@@ -1,0 +1,81 @@
+name: Check HTML and JSON generation
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  # schedule:
+  #   - cron: 3 0 * * *  # Run daily at 0:03 UTC
+
+jobs:
+  test-html-json-generator:
+    name: Create a HTML/JSON report from XMLs
+    runs-on: ${{ matrix.runner-os }}
+    strategy:
+      matrix:
+        runner-os:
+          - ubuntu-20.04
+        runner-python-version:
+          - 3.6.8 # This is the Python3 version on CI container :shrug:
+    steps:
+
+      - name: Check out ${{ github.repository }} on disk
+        uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.runner-python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.runner-python-version }}
+
+      - name: Install deps
+        run: |
+          python -m pip install virtualenv
+          python -m virtualenv /tmp/venv
+          /tmp/venv/bin/pip install -r requirements.txt
+          mkdir -p htmls
+
+      - name: Run on one file
+        run: |
+          /tmp/venv/bin/python ./j2html.py tests/cnftests-junit.xml -o htmls/one_file.html
+
+      - name: Run on multiple files
+        run: |
+          /tmp/venv/bin/python ./j2html.py tests/cnftests-junit_*.xml -o htmls/multi_file.html
+
+      - name: Run on validation files
+        run: |
+          /tmp/venv/bin/python ./j2html.py tests/validation_junit_*.xml -o htmls/validation_file.html
+
+      - name: Run on setup files
+        run: |
+          /tmp/venv/bin/python ./j2html.py tests/setup_junit_*.xml -o htmls/setup_file.html
+
+      - name: Run on all files
+        run: |
+          /tmp/venv/bin/python ./j2html.py tests/*.xml -o htmls/all_file.html
+
+      - name: Run JSON on one file
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/cnftests-junit.xml -o htmls/one_file.json
+
+      - name: Run JSON on multiple files
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/cnftests-junit_*.xml -o htmls/multi_file.json
+
+      - name: Run JSON on validation files
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/validation_junit_*.xml -o htmls/validation_file.html
+
+      - name: Run JSON on setup files
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/setup_junit_*.xml -o htmls/setup_file.json
+
+      - name: Run JSON on all files
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/*.xml -o htmls/all_file.json
+
+      - name: Store migrated collection artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: collection
+          path: htmls

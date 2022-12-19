@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuite name="CNF Features e2e setup" tests="1" failures="0" errors="0" time="0.189">
+      <testcase name="[performance][config] Performance configuration Should successfully deploy the performance profile" classname="CNF Features e2e setup" time="0.188790253">
+          <system-out>[BeforeEach] [performance][config] Performance configuration&#xA;  /tmp/cnf-onBlp/cnf-features-deploy/vendor/github.com/openshift/cluster-node-tuning-operator/test/e2e/performanceprofile/functests/utils/utils.go:19&#xA;[It] Should successfully deploy the performance profile&#xA;  /tmp/cnf-onBlp/cnf-features-deploy/vendor/github.com/openshift/cluster-node-tuning-operator/test/e2e/performanceprofile/functests/0_config/config.go:47&#xA;�[1mSTEP�[0m: Getting MCP for profile&#xA;�[1mSTEP�[0m: Creating the PerformanceProfile&#xA;Oct 28 04:14:18.025: [WARNING]: A PerformanceProfile with name performance already exists! If created externally, tests might have unexpected behaviour&#xA;�[1mSTEP�[0m: MCP is already unpaused&#xA;�[1mSTEP�[0m: Waiting for the MCP to pick the PerformanceProfile&#39;s MC&#xA;Oct 28 04:14:18.044: [INFO]: Waiting for profile performance to be picked up by the worker-cnf machine config pool&#xA;Oct 28 04:14:18.062: [INFO]: Profile performance picked up by the worker-cnf machine config pool&#xA;�[1mSTEP�[0m: Waiting for MCP being updated&#xA;Oct 28 04:14:18.120: [INFO]: MCP &#34;worker-cnf&#34; is targeting 1 node(s)&#xA;</system-out>
+      </testcase>
+      <testcase name="[config] numaresources cluster configuration [numaresources] Should successfully deploy the infra" classname="CNF Features e2e setup" time="0">
+          <skipped></skipped>
+      </testcase>
+  </testsuite>

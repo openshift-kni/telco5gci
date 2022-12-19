@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuite name="CNF Features e2e setup" tests="0" failures="0" errors="0" time="0">
+      <testcase name="[performance][config] Performance configuration Should successfully deploy the performance profile" classname="CNF Features e2e setup" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[config] numaresources cluster configuration [numaresources] Should successfully deploy the infra" classname="CNF Features e2e setup" time="0">
+          <skipped></skipped>
+      </testcase>
+  </testsuite>

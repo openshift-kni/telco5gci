@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuite name="CNF Features e2e integration tests" tests="11" failures="0" errors="0" time="193.274">
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement cluster has at least one suitable node [test_id:47591][tier1] should modify workload post scheduling while keeping the resource requests available" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb MetalLB deploy should have MetalLB pods in running state" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb MetalLB contains incorrect data MetalLB has incorrect name should not be reconciled" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb MetalLB contains incorrect data Correct and incorrect MetalLB resources coexist should have correct statuses" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification of configuration on the worker node [test_id:28528][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Verify CPU reservation on the node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification of configuration on the worker node [test_id:37862][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Verify CPU affinity mask, CPU reservation and CPU isolation on worker node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification of configuration on the worker node [test_id:34358] Verify rcu_nocbs kernel argument on the node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification of cpu manager functionality Verify CPU usage by stress PODs [test_id:37860] Non-guaranteed POD can work on any CPU" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification of cpu manager functionality Verify CPU usage by stress PODs [test_id:27492] Guaranteed POD should work on isolated cpu" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management when pod runs with the CPU load balancing runtime class [test_id:32646] should disable CPU load balancing for CPU&#39;s used by the pod" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management Verification that IRQ load balance can be disabled per POD [test_id:36364] should disable IRQ balance for CPU where POD is running" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management when reserved CPUs specified [test_id:49147] should run infra containers on reserved CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27363][performance] CPU Management when strict NUMA aligment is requested [test_id:49149] should reject pods which request integral CPUs not aligned with machine SMT level" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sctp] Negative - Sctp disabled Client Server Connection Should NOT start a server pod" classname="CNF Features e2e integration tests" time="20.283390641">
+          <skipped>/tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:102&#xA;Skipping as no non-enabled nodes are available&#xA;/tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:104</skipped>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Kernel Module is loaded" classname="CNF Features e2e integration tests" time="20.726330904">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;�[1mSTEP�[0m: Choosing the nodes for the server and the client&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Kernel Module is loaded&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:165&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Custom namespace" classname="CNF Features e2e integration tests" time="8.419792213000001">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Custom namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:180&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Default namespace" classname="CNF Features e2e integration tests" time="9.46654429">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Default namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:181&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Custom namespace with policy" classname="CNF Features e2e integration tests" time="8.460538126">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Custom namespace with policy&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:182&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Custom namespace with policy no port" classname="CNF Features e2e integration tests" time="33.38486423">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Custom namespace with policy no port&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:185&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Default namespace with policy" classname="CNF Features e2e integration tests" time="9.68269411">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Default namespace with policy&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:189&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Connectivity Test Default namespace with policy no port" classname="CNF Features e2e integration tests" time="33.3605658">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Default namespace with policy no port&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:192&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server Should connect a client pod to a server pod. Feature LatencySensitive Active" classname="CNF Features e2e integration tests" time="0.242656427">
+          <skipped>/tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:198&#xA;Feature LatencySensitive is not ACTIVE&#xA;/tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:208</skipped>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server connect a client pod to a server pod via Service ClusterIP Custom namespace" classname="CNF Features e2e integration tests" time="11.239492094">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Custom namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:223&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server connect a client pod to a server pod via Service ClusterIP Default namespace" classname="CNF Features e2e integration tests" time="8.61300624">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Default namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:224&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server connect a client pod to a server pod via Service Node Port Custom namespace" classname="CNF Features e2e integration tests" time="9.650495245">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Custom namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:238&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[sctp] Test Connectivity Connectivity between client and server connect a client pod to a server pod via Service Node Port Default namespace" classname="CNF Features e2e integration tests" time="8.636611947">
+          <system-out>[BeforeEach] [sctp]&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Test Connectivity&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/pkg/execute/ginkgo.go:9&#xA;[BeforeEach] Connectivity between client and server&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:159&#xA;[It] Default namespace&#xA;  /tmp/cnf-rUFqe/cnf-features-deploy/cnf-tests/testsuites/e2esuite/sctp/sctp.go:239&#xA;�[1mSTEP�[0m: Setting up&#xA;�[1mSTEP�[0m: Starting the server&#xA;�[1mSTEP�[0m: Fetching the server&#39;s ip address&#xA;�[1mSTEP�[0m: Connecting a client to the server&#xA;</system-out>
+      </testcase>
+      <testcase name="[performance]Hugepages [rfe_id:27369]when NUMA node specified [test_id:27752][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] should be allocated on the specifed NUMA node " classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance]Hugepages with multiple sizes [test_id:34080] should be supported and available for the container usage" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance]Hugepages [rfe_id:27354]Huge pages support for container workloads [test_id:27477][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Huge pages support for container workloads" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement cluster has at least one suitable node [test_id:47584][tier2] should be able to schedule guaranteed pod in selective way" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] Tuning CNI integration tuning cni over sriov pods with sysctl&#39;s over sriov interface should start" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] Tuning CNI integration tuning cni over sriov pods with sysctl&#39;s on bond over sriov interfaces should start" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] Bond CNI integration bond cni over sriov pod with sysctl&#39;s on bond over sriov interfaces should start" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[tuningcni] tuningcni over macvlan should be able to create pod with sysctls over macvlan" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[tuningcni] tuningcni over macvlan pods with sysctl&#39;s over macvlan should be able to ping each other" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[tuningcni] tuningcni over bond pods with sysctls over bond should be able to ping each other" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload overhead cluster with at least a worker node suitable when a RuntimeClass exist in the cluster [test_id:47582][tier2] schedule a guaranteed Pod in a single NUMA zone and check overhead is not accounted in NRT" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator No SriovNetworkNodePolicy SR-IOV network config daemon can be set by nodeselector Should schedule the config daemon on selected nodes" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy Resource Injector Should inject downward api volume with no labels present" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy Resource Injector Should inject downward api volume with labels present" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy VF flags Should configure the spoofChk boolean variable" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy VF flags Should configure the trust boolean variable" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy VF flags Should configure the the link state variable" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy VF flags rate limit Should configure the requested rate limit flags under the vf" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy VF flags vlan and Qos vlan Should configure the requested vlan and Qos vlan flags under the vf" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy Multiple sriov device and attachment Should configure multiple network attachments" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy IPv6 configured secondary interfaces on pods should be able to ping each other" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy NAD update NAD is updated when SriovNetwork spec/networkNamespace is changed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy NAD update NAD default gateway is updated when SriovNetwork ipam is changed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy SRIOV and macvlan Should be able to create a pod with both sriov and macvlan interfaces" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy Meta Plugin Configuration Should be able to configure a metaplugin" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Generic SriovNetworkNodePolicy Virtual Functions should release the VFs once the pod deleted and same VFs can be used by the new created pods" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration Create vfio-pci node policy Should be possible to create a vfio-pci resource" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration PF Partitioning Should be possible to partition the pf&#39;s vfs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration PF Partitioning Should not be possible to have overlapping pf ranges" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration Main PF should work when vfs are used by pods" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration PF shutdown Should be able to create pods successfully if PF is down.Pods are able to communicate with each other on the same node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Configuration MTU Should support jumbo frames" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Nic Validation Test connectivity using the requested nic Intel Corporation Ethernet Controller XXV710 for 25GbE SFP28" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Nic Validation Test connectivity using the requested nic Ethernet Controller XXV710 Intel(R) FPGA Programmable Acceleration Card N3000 for Networking" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Resource Injector SR-IOV Operator Config, disable Resource Injector" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Resource Injector SR-IOV Operator Config, disable Operator Webhook" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy Resource Injector SR-IOV Operator Config, disable Resource Injector and Operator Webhook" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] operator Custom SriovNetworkNodePolicy vhost-net and tun devices Validation Should have the vhost-net device inside the container" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] SCTP integration Test Connectivity Connectivity between client and server Should work over a SR-IOV device" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[vrf]  Integration: NAD, IPAM: static, Interfaces: 1, Scheme: 2 Pods 2 VRFs OCP Primary network overlap {&#34;IPStack&#34;:&#34;ipv4&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should be able to add metadata info(labels/annotations)" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should avoid mutating existing metadata info(labels/annotations)" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should apply mutations by order" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should be able to update mutation policy" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should not apply mutations policies after deletion" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] mutation should be able to match by any match category" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] constraints should apply constraints" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[gatekeeper] operator should be able to select mutation namespaces" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[s2i] VFS allocated for l2fw application Validate the build Should forward and receive packets from a pod running l2fw application base on a image created by building config" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[s2i] restoring configuration should restore the cluster to the original status" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP configuration verifications Should check whether PTP operator appropriate resource exists" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP configuration verifications Should check that all nodes are running at least one replica of linuxptp-daemon" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP configuration verifications Should check that operator is deployed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP Interfaces discovery The interfaces support ptp can be discovered correctly" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP Interfaces discovery The virtual interfaces should be not discovered by ptp" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP Interfaces discovery PTP daemon apply match rule based on nodeLabel" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP Interfaces discovery Slave can sync to master" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP Interfaces discovery Can provide a profile with higher priority" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP e2e tests PTP metric is present on slave" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27350][performance]Topology Manager [test_id:26932][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] should be enabled with the policy specified in profile" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[xt_u32] Negative - xt_u32 disabled Should NOT create an iptable rule" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[xt_u32] Validate the module is enabled and works Should create an iptables rule inside a pod that has the module enabled" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[fec] Expose resource on the node should show resources under the node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources scheduler restart on a live cluster when restarting the topology aware scheduler in a live cluster [case:1][test_id:48069][tier2] should schedule any pending workloads submitted while the scheduler was unavailable" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with no suitable node [test_id:47617][tier2][unsched] workload requests guaranteed pod resources available on one node but not on a single numa" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with no suitable node [test_id:48963][tier2][unsched] a deployment with a guaranteed pod resources available on one node but not on a single numa" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with no suitable node [test_id:48962][tier2][unsched] a daemonset with a guaranteed pod resources available on one node but not on a single numa" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with at least two nodes with two numa zones and enough resources in one numazone [test_id:47592][tier2][unsched] a daemonset with a guaranteed pod resources available on one node/one single numa zone but not in any other node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with at least one node [test_id:47616][tier2][tmscope:pod] pod with two containers each on one numa zone can NOT be scheduled" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload unschedulable with zero suitable nodes [test_id:47615][tier2][unsched] a deployment with multiple guaranteed pods resources that doesn&#39;t fit at the NUMA level" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a guaranteed pod with one container should be scheduled into one NUMA zone [test_id:48713][tmscope:cnt]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:pod]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:cnt][hugepages]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:pod][hugepages]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a deployment with a guaranteed pod with one container should be scheduled into one NUMA zone [test_id:47583][tmscope:cnt]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a deployment with a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:pod]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a deployment with a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:cnt][hugepages]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy with at least two nodes suitable [tier1] a deployment with a guaranteed pod with one container should be scheduled into one NUMA zone [tmscope:pod][hugepages]" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy [placement] cluster with multiple worker nodes suitable [test_id:47575][tmscope:cnt][tier1] should make a pod with two gu cnt land on a node with enough resources on a specific NUMA zone, each cnt on a different zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy [placement] cluster with multiple worker nodes suitable [test_id:47577][tmscope:pod][tier1] should make a pod with two gu cnt land on a node with enough resources on a specific NUMA zone, all cnt on the same zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy [placement] cluster with multiple worker nodes suitable [tmscope:cnt][hugepages] should make a pod with two gu cnt land on a node with enough resources on a specific NUMA zone, each cnt on a different zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering TM policy [placement] cluster with multiple worker nodes suitable [tmscope:pod][hugepages] should make a pod with two gu cnt land on a node with enough resources on a specific NUMA zone, all cnt on the same zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ref_id: 40307][pao]Resizing Network Queues Updating performance profile for netqueues [test_id:40308][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Network device queues Should be set to the profile&#39;s reserved CPUs count " classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ref_id: 40307][pao]Resizing Network Queues Updating performance profile for netqueues [test_id:40542] Verify the number of network queues of all supported network interfaces are equal to reserved cpus count" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ref_id: 40307][pao]Resizing Network Queues Updating performance profile for netqueues [test_id:40543] Add interfaceName and verify the interface netqueues are equal to reserved cpus count." classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ref_id: 40307][pao]Resizing Network Queues Updating performance profile for netqueues [test_id:40545] Verify reserved cpus count is applied to specific supported networking devices using wildcard matches" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ref_id: 40307][pao]Resizing Network Queues Updating performance profile for netqueues [test_id:40668] Verify reserved cpu count is added to networking devices matched with vendor and Device id" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] Test Offset PTP configuration verifications PTP time diff between Grandmaster and Slave should be in range -100ms and 100ms" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP socket sharing between pods Negative - run pmc in a new unprivileged pod on the slave node Should not be able to use the uds" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] PTP socket sharing between pods Run pmc in a new pod on the slave node Should be able to sync using a uds" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ptp] prometheus Metrics reported by PTP pods Should all be reported by prometheus" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance]RT Kernel [test_id:26861][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] should have RT kernel enabled" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance]RT Kernel [test_id:28526][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] a node without performance profile applied should not have RT kernel installed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][slow] numaresources configuration management cluster has at least one suitable node [test_id:47674][reboot_required][slow][images][tier2] should be able to modify the configurable values under the NUMAResourcesOperator and NUMAResourcesScheduler CR" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][slow] numaresources configuration management cluster has at least one suitable node [test_id:47585][reboot_required][slow] can change kubeletconfig and controller should adapt" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sriov] VRF integration  Integration: SRIOV, IPAM: static, Interfaces: 1, Scheme: 2 Pods 2 VRFs OCP Primary network overlap {&#34;IPStack&#34;:&#34;ipv4&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload resource accounting cluster with at least a worker node suitable [placement][test_id:49068][tier2] should keep the pod pending if not enough resources available, then schedule when resources are freed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload resource accounting cluster with node/s having two numa zones, and there are enough resources on one node but not in any numa zone when trying to schedule a deployment with burstable pods [test_id:47618][tier2] should properly schedule deployment with burstable pod with no changes in NRTs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Validate MCO applied egress MachineConfig on the relevant nodes" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;SDN Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;Host Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;Host Pod to Host Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Test limitations are not applied within the same node {&#34;Connectivity&#34;:&#34;SDN Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Test limitations are not applied within the same node {&#34;Connectivity&#34;:&#34;Host Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_egress validate egress QoS limitation Validate MCO removed egress MachineConfig and disabled QOS limitation on the relevant nodes" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Validate MCO applied ingress MachineConfig on the relevant nodes" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;SDN Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;Host Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Test limitations are correctly applied {&#34;Connectivity&#34;:&#34;Host Pod to Host Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Test limitations are not applied within the same node {&#34;Connectivity&#34;:&#34;SDN Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Test limitations are not applied within the same node {&#34;Connectivity&#34;:&#34;Host Pod to SDN Pod&#34;}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[ovs_qos] ovs_qos_ingress validate ingress QoS limitation Validate MCO removed ingress MachineConfig and disabled QOS limitation on the relevant nodes" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering taints when cluster has two feasible nodes with taint but only one has the requested resources on a single NUMA zone [test_id:47594][tier1] should make a pod with a toleration land on a node with enough resources on a specific NUMA zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[bondcni] bond over macvlan should be able to create pod with bond interface over macvlan interfaces" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources scheduler removal on a live cluster when removing the topology aware scheduler from a live cluster [case:1][test_id:47593][tier1] should keep existing workloads running" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources scheduler removal on a live cluster when removing the topology aware scheduler from a live cluster [case:2][test_id:49093][tier1] should keep new scheduled workloads pending" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Tuned CRs generated from profile [test_id:31748] Should have the expected name for tuned from the profile owner object" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Tuned CRs generated from profile [test_id:37127] Node should point to right tuned profile" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:31198] Should set CPU affinity kernel argument" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:32702] Should set CPU isolcpu&#39;s kernel argument managed_irq flag" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:27081][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Should set workqueue CPU mask" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:32375][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] initramfs should not have injected configuration" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:35363][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] stalld daemon is running on the host" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:42400][crit:medium][vendor:cnf-qe@redhat.com][level:acceptance] stalld daemon is running as sched_fifo" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Pre boot tuning adjusted by tuned  [test_id:42696][crit:medium][vendor:cnf-qe@redhat.com][level:acceptance] Stalld runs in higher priority than ksoftirq and rcu{c,b}" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Additional kernel arguments added from perfomance profile [test_id:28611][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Should set additional kernel arguments on the machine" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Tuned kernel parameters [test_id:28466][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Should contain configuration injected through openshift-node-performance profile" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] RPS configuration Should have the correct RPS configuration" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Network latency parameters adjusted by the Node Tuning Operator [test_id:28467][crit:high][vendor:cnf-qe@redhat.com][level:acceptance] Should contain configuration injected through the openshift-node-performance profile" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] KubeletConfig experimental annotation should override system-reserved memory" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Create second performance profiles on a cluster [test_id:32364] Verifies that cluster can have multiple profiles" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions  when the GloballyDisableIrqLoadBalancing field set to false should preserve the value during the v1 &lt;-&gt; v2 conversion" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions  when the GloballyDisableIrqLoadBalancing field set to true should preserve the value during the v1 &lt;-&gt; v2 conversion" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions when the performance profile does not contain NUMA field Verifies v1 &lt;-&gt; v1alpha1 conversions" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions when the performance profile does not contain NUMA field Verifies v1 &lt;-&gt; v2 conversions" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions [test_id:35887] Verifies v1 &lt;-&gt; v1alpha1 conversions" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Verify API Conversions [test_id:35888] Verifies v1 &lt;-&gt; v2 conversions" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1alpha1 profile should reject the creation of the profile with overlapping CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1alpha1 profile should reject the creation of the profile with no isolated CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1alpha1 profile should reject the creation of the profile with the node selector that already in use" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1 profile should reject the creation of the profile with overlapping CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1 profile should reject the creation of the profile with no isolated CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with API version v1 profile should reject the creation of the profile with the node selector that already in use" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with profile version v2 should reject the creation of the profile with overlapping CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with profile version v2 should reject the creation of the profile with no isolated CPUs" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[rfe_id:27368][performance] Validation webhook with profile version v2 should reject the creation of the profile with the node selector that already in use" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] vhostnet Client should be able to forward packets Should be able to transmit packets" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] vhostnet Server should be able to receive packets and forward to tap device Should be able to transmit packets" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS allocated for dpdk Validate a DPDK workload running inside a pod Should forward and receive packets" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS allocated for dpdk Validate NUMA aliment should allocate the requested number of cpus" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS allocated for dpdk Validate NUMA aliment should allocate all the resources on the same NUMA node" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS allocated for dpdk Validate HugePages should allocate the amount of hugepages requested" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS allocated for dpdk Validate HugePages SeLinux access should allow to remove the hugepage file inside the pod" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS split for dpdk and netdevice should forward and receive packets from a pod running dpdk base" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] VFS split for dpdk and netdevice Run a regular pod using a vf shared with the dpdk&#39;s pf" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Pensando_ionic_DSC" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_XXV710_N3000" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ice_E810-XXVDA4" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ixgbe_X520" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ixgbe_X520-AT2" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ixgbe_X550T" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-6" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx4_ConnectX-3_Pro" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-4_Lx" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-6_Dx" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Qlogic_qede_QL41000" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-5" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-5_Ex" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Broadcom_bnxt_en_BCM57414_NetXtreme-E" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_X710_10G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-4" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_XL710_40G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ice_E810-XXVDA2" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Qlogic_qede_QL45000_50G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Broadcom_bnxt_en_BCM57508_NetXtreme-E" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_X710_X557_AT_10G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_XXV710" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_i40e_XXV710_25G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ice_E810" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ixgbe_82599ES" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_BlueField-2_ConnectX-6_Dx" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Nvidia_mlx5_ConnectX-6_Lx" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Qlogic_qede_QL45000_25G" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Red_Hat_Virtio_network_device" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] dpdk application on different vendors Test connectivity using the requested nic Intel_ice_E810-CQDA2_2CQDA2" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] Downward API Volume is readable in container" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[dpdk] restoring configuration should restore the cluster to the original status" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering node selector with two labeled nodes with two NUMA zones [test_id:47598][tier2] should place the pod in the node with available resources in one NUMA zone and fulfilling node selector" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering node selector with two labeled nodes with two NUMA zones label two nodes with different label values but both matching the node affinity of the deployment pod of the test [tier2] a guaranteed deployment pod with nodeAffinity should be scheduled on one NUMA zone on a matching labeled node with enough resources [test_id:47597] should be able to schedule pod with affinity property requiredDuringSchedulingIgnoredDuringExecution on the available node with feasible numa zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[serial][disruptive][scheduler] numaresources workload placement considering node selector with two labeled nodes with two NUMA zones label two nodes with different label values but both matching the node affinity of the deployment pod of the test [tier2] a guaranteed deployment pod with nodeAffinity should be scheduled on one NUMA zone on a matching labeled node with enough resources [test_id:49843] should be able to schedule pod with affinity property prefferdDuringSchedulingIgnoredDuringExecution on the available node with feasible numa zone" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance] Latency Test with the oslat image should succeed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance] Latency Test with the cyclictest image should succeed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[performance] Latency Test with the hwlatdetect image should succeed" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sro] Build source out of tree driver for SRO using Should have the source driver image as imageStream" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sro] Apply the chart as a configmap for SRO to use should exist in the configmap object" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sro] Apply the special resource CR to build the OOT driver should have a oot driver imagestream built" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="[sro] Apply the special resource CR to build the OOT driver should have the driver built inside the container" classname="CNF Features e2e integration tests" time="0">
+          <skipped></skipped>
+      </testcase>
+  </testsuite>

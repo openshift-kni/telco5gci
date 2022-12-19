@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <testsuite name="CNF Features e2e validation" tests="2" failures="0" errors="0" time="0.321">
+      <testcase name="metallb Platform Check Should have the MetalLB Operator namespace" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb Platform Check should be either Kubernetes or OpenShift platform" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb MetalLB should have the MetalLB Operator deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="metallb MetalLB should have the MetalLB CRD available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation general should report all machine config pools are in ready status" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation general should have one machine config pool with the requested label" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation general [ovn] should have a openshift-ovn-kubernetes namespace" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation general should have all the nodes in ready" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [performance]|[dpdk]|[s2i] Should have the performance CRD available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] should have the sriov namespace" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] should have the sriov operator deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] Should have the sriov CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] should deploy the injector pod if requested" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] should deploy the operator webhook if requested" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sriov]|[dpdk]|[s2i] should have SR-IOV node statuses not in progress" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sctp] should have a sctp enable machine config" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sctp] should have the sctp enable machine config as part of the CNF machine config pool" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [ptp] should have the ptp namespace" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [ptp] should have the ptp operator deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [ptp] should have the linuxptp daemonset in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [ptp] should have the ptp CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [s2i] should have a tag ready from the dpdk imagestream" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [xt_u32] should have a xt_u32 enable machine config" classname="CNF Features e2e validation" time="0.148217313">
+          <system-out>[It] should have a xt_u32 enable machine config&#xA;  /tmp/cnf-cOgMy/cnf-features-deploy/cnf-tests/testsuites/validationsuite/cluster/validation.go:268&#xA;</system-out>
+      </testcase>
+      <testcase name="validation [xt_u32] should have the xt_u32 enable machine config as part of the CNF machine config pool" classname="CNF Features e2e validation" time="0.172777935">
+          <system-out>[It] should have the xt_u32 enable machine config as part of the CNF machine config pool&#xA;  /tmp/cnf-cOgMy/cnf-features-deploy/cnf-tests/testsuites/validationsuite/cluster/validation.go:273&#xA;</system-out>
+      </testcase>
+      <testcase name="validation [n3000] should have the n3000 CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [n3000] should have a ready deployment for the OpenNESS Operator for Intel FPGA PAC N3000 (Programming) operator" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [n3000] should have all the required OpenNESS Operator for Intel FPGA PAC N3000 (Programming) operands" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [fec] should have the fec CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [fec] should have a ready deployment for the OpenNESS Operator for Intel FPGA PAC N3000 (Management) operator" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [fec] should have all the required OpenNESS Operator for Intel FPGA PAC N3000 (Management) operands" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation container-mount-namespace should have a container-mount-namespace machine config for worker" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation container-mount-namespace should have the container-mount-namespace machine config as part of the worker machine config pool" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation container-mount-namespace should have a container-mount-namespace machine config for master" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation container-mount-namespace should have the container-mount-namespace machine config as part of the master machine config pool" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [gatekeeper] mutation should have the gatekeeper namespace" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [gatekeeper] mutation should have the gatekeeper-operator-controller-manager deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [gatekeeper] mutation should have the gatekeeper-controller-manager deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [gatekeeper] mutation should have the gatekeeper-audit deployment in running state" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have the node feature discovery CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have a ready deployment for the NFD Operator" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have at least one nfd CR apply on the cluster to deploy the operand daemonsets" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] Should have nfd daemonsets" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have a ready deployment for the Special Resource Operator" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have the special resource operator CRDs available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+      <testcase name="validation [sro] should have the internal registry available in the cluster" classname="CNF Features e2e validation" time="0">
+          <skipped></skipped>
+      </testcase>
+  </testsuite>
