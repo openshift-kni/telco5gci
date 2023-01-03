@@ -17,25 +17,29 @@ def get_stat(xml):
         "fail": 0,
         "error": 0,
         "total_run": 0,
+        "total_time": 0,
         "tests": {}
     }
 
     for t in xml:
         name = t.name
+        time_ts = t.time or 0
         result['total'] += 1
-
+        result['tests'][name] = {}
+        result['tests'][name]['time'] = time_ts
+        result['total_time'] += time_ts
         if t.is_passed:
             result['pass'] += 1
-            result['tests'][name] = 'pass'
+            result['tests'][name]['result'] = 'pass'
         elif t.is_skipped:
             result['skip'] += 1
-            result['tests'][name] = 'skip'
+            result['tests'][name]['result'] = 'skip'
         elif t.result and t.result[0].type == 'Failure':
             result['fail'] += 1
-            result['tests'][name] = 'fail'
+            result['tests'][name]['result'] = 'fail'
         else:
             result['error'] += 1
-            result['tests'][name] = 'error'
+            result['tests'][name]['result'] = 'error'
     result['total_run'] = result['total'] - result['skip']
 
     return result
