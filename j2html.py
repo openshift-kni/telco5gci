@@ -112,7 +112,7 @@ function showOutput(id, name) {
 --></script>
 {{ heading }}
 {{ report }}
-{{ rending }}
+{{ ending }}
 </body>
 </html>
 """
@@ -157,25 +157,25 @@ a.popup_link:hover {
 }
 }
 /* -- report --------------------------------------------------------------- */
-# show_detail_line {
+#show_detail_line {
     margin-top: 3ex;
     margin-bottom: 1ex;
 }
-# result_table {
+#result_table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #777;
 }
-# header_row {
+#header_row {
     font-weight: bold;
     color: white;
     background-color: #777;
 }
-# result_table td {
+#result_table td {
     border: 1px solid #777;
     padding: 2px;
 }
-# total_row  { font-weight: bold; }
+#total_row  { font-weight: bold; }
 .passClass  { background-color: #6c6; font-weight: bold; font-size: 120%;}
 .skipClass  { background-color: #bababa; font-weight: bold; font-size: 120%;}
 .failClass  { background-color: #c60;  font-weight: bold; font-size: 120%;}
@@ -189,7 +189,7 @@ a.popup_link:hover {
 td.testname {width: 40%}
 td.small {width: 40px}
 /* -- ending --------------------------------------------------------------- */
-# ending {
+#ending {
 }
 </style>
 """
