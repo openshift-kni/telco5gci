@@ -219,9 +219,11 @@ REPORT_TMPL = """
 <col align='right' />
 <col align='right' />
 <col align='right' />
+<col align='right' />
 </colgroup>
 <tr id='header_row'>
     <td>Test Group/Test case</td>
+    <td>Time</td>
     <td>Count</td>
     <td>Pass</td>
     <td>Fail</td>
@@ -233,6 +235,7 @@ REPORT_TMPL = """
 {{ test_list }}
 <tr id='total_row'>
     <td>Total</td>
+    <td>{{ total_time }}</td>
     <td>{{ count }}</td>
     <td>{{ Pass }}</td>
     <td>{{ fail }}</td>
@@ -246,6 +249,7 @@ REPORT_TMPL = """
 REPORT_CLASS_TMPL = r"""
 <tr class='{{ style }}'>
     <td class="testname">{{ desc }}</td>
+    <td class="small">{{ time_suite_total }}</td>
     <td class="small">{{ count }}</td>
     <td class="small">{{ Pass }}</td>
     <td class="small">{{ fail }}</td>
@@ -259,6 +263,7 @@ REPORT_CLASS_TMPL = r"""
 REPORT_TEST_WITH_OUTPUT_TMPL = r"""
 <tr id='{{ tid }}' class='{{ Class }}'>
     <td class='{{ style }}'><div class='testcase'>{{ desc }}</div></td>
+    <td>{{ test_time }}</td>
     <td colspan='7' align='left'>
     <!--css div popup start-->
     <a class="popup_link" onfocus='this.blur();'
@@ -292,6 +297,14 @@ REPORT_TEST_OUTPUT_TMPL = r"""
 ENDING_TMPL = """<div id='ending'>&nbsp;</div>"""
 DEFAULT_TITLE = 'CNF Test Report'
 DEFAULT_DESCRIPTION = ''
+
+
+def time_format(t):
+    if t == 0:
+        return "0"
+    if t > 1:
+        return f"{t:.0f}"
+    return f"{t:.1g}"
 
 
 def getReportAttributes(test_data):
@@ -349,6 +362,7 @@ def generate_report_test(rows, tid, cid, test):
     tid = "p%s" % tid if status in ('passed', 'skipped') else "f%s" % tid
     name = test.name
     desc = name
+    test_time = test.time
     try:
         output = saxutils.escape(
             (test.system_out or '') + (test.system_err or '') + test_txt)
@@ -374,6 +388,7 @@ def generate_report_test(rows, tid, cid, test):
         desc=desc,
         script=script,
         status=status,
+        test_time=time_format(test_time),
     )
     rows.append(row)
     if not has_output:
@@ -400,6 +415,7 @@ def generate_report(test_data, xml):
             clasd_tests[cl_type].append(c)
 
     rows = []
+    total_time = 0
     for cid, t_class in enumerate(list(clasd_tests.keys())):
         tests = clasd_tests[t_class]
 
@@ -408,6 +424,7 @@ def generate_report(test_data, xml):
         fa = []
         sk = []
         er = []
+        time_suite = 0
         for t in tests:
             if t.is_passed:
                 pa.append(t)
@@ -417,8 +434,10 @@ def generate_report(test_data, xml):
                 fa.append(t)
             else:
                 er.append(t)
+            time_suite += t.time
         ne, nf, ns, np = len(er), len(fa), len(sk), len(pa)
         all_skipped = len(er) + len(fa) + len(sk) + len(pa) == len(sk)
+        total_time += time_suite
 
         rows.append(
             Template(REPORT_CLASS_TMPL).render(
@@ -432,6 +451,7 @@ def generate_report(test_data, xml):
                 fail=nf,
                 error=ne,
                 skip=ns,
+                time_suite_total=time_format(time_suite),
                 cid='c%s' % (cid + 1),
             ))
 
@@ -446,6 +466,7 @@ def generate_report(test_data, xml):
         fail=str(test_data['failure_count']),
         error=str(test_data['error_count']),
         skip=str(test_data['skip_count']),
+        total_time=time_format(total_time),
     )
     return report
 
