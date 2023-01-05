@@ -8,29 +8,38 @@ import requests
 import sys
 
 ansi = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
+color_code_pattern = re.compile(r'\033\[[0-9;]*m')
 ttime = re.compile(r'([\d\.]+) seconds')
-SUITES = ["vrf",
-          "sctp",
-          "serial",
-          "sriov",
-          "gatekeeper",
-          "tuningcni",
-          "pao",
-          "Metallb",
-          "xt_u32",
-          "sro",
-          "performance",
-          "ptp",
-          "bondcni",
-          "ovs_qos",
-          "s2i",
-          "dpdk",
-          "fec"]
+SUITES = [
+    "vrf",
+    "sctp",
+    "serial",
+    "sriov",
+    "gatekeeper",
+    "tuningcni",
+    "pao",
+    "Metallb",
+    "xt_u32",
+    "sro",
+    "performance",
+    "ptp",
+    "bondcni",
+    "ovs_qos",
+    "s2i",
+    "dpdk",
+    "fec"
+]
+
+
+def clean_line(line):
+    line = color_code_pattern.sub('', line)
+    line = line.strip()
+    return line
 
 
 def get_time(x):
     if "seconds" not in "".join(x):
-        return None
+        return "0"
     found = ttime.search("".join(x))
     if found:
         return found.group(1)
@@ -46,16 +55,30 @@ def get_name(x):
         return None
     name = ""
     for ind, line in enumerate(x):
+        line = clean_line(line)
         for t in SUITES:
-            if t in line and re.search(rf'^\W*({t})', line):
+            if t in line and re.search(rf'^\W*({t})\W', line):
                 name = line.strip()
                 if len(x) > (ind + 1):
-                    name += " " + x[ind+1].strip()
+                    name += " " + clean_line(x[ind+1]).strip()
+                name = name.strip('"')
                 break
         if name:
             break
-    name = ansi.sub('', name)
+    # name = ansi.sub('', name)
     return name
+
+
+def get_result(x):
+    for line in x:
+        line = clean_line(line)
+        if "• Failure " in line:
+            return "fail"
+        if "S [SKIPPING]" in line:
+            return "skip"
+        if "•" in line:
+            return "pass"
+    return "skip"
 
 
 def get_artifact_link(url):
@@ -133,10 +156,8 @@ def parse_data(fpath):
         name = get_name(z)
         if name:
             time = get_time(z)
-            if time:
-                res[name] = time
-            else:
-                res[name] = 0
+            test_result = get_result(z)
+            res[name] = {"time": time, "result": test_result}
 
     return res
 
