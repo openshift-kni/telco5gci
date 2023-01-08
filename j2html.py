@@ -295,8 +295,8 @@ REPORT_TEST_OUTPUT_TMPL = r"""
 {{ id }}: {{ output }}
 """
 ENDING_TMPL = """<div id='ending'>&nbsp;</div>"""
-DEFAULT_TITLE = 'CNF Test Report'
-DEFAULT_DESCRIPTION = ''
+DEFAULT_TITLE = "CNF Test Report"
+DEFAULT_DESCRIPTION = ""
 
 
 def time_format(t):
@@ -307,218 +307,269 @@ def time_format(t):
     return f"{t:.1g}"
 
 
-def getReportAttributes(test_data):
-    """Return report attributes as a list of (name, value)."""
-    status = []
-    if test_data['success_count']:
-        status.append('Pass %s' % test_data['success_count'])
-    if test_data['failure_count']:
-        status.append('Failure %s' % test_data['failure_count'])
-    if test_data['error_count']:
-        status.append('Error %s' % test_data['error_count'])
-    if test_data['skip_count']:
-        status.append('Skip %s' % test_data['skip_count'])
-    if status:
-        status = ' '.join(status)
-    else:
-        status = 'none'
-    return [
-        ('Status', status),
-    ]
-
-
-def generate_heading(test_data):
-    report_attrs = getReportAttributes(test_data)
-    a_lines = []
-    for name, value in report_attrs:
-        line = Template(HEADING_ATTRIBUTE_TMPL).render(
-            name=saxutils.escape(name),
-            value=saxutils.escape(value),
+class HTMLReport:
+    def __init__(self, args):
+        all_xml = JUnitXml.fromfile(args.files[0])
+        for i in args.files[1:]:
+            all_xml += JUnitXml.fromfile(i)
+        if len(args.files) > 1:
+            all_xml = self.merge(all_xml)
+        if isinstance(all_xml, JUnitXml):
+            all_xml = self.merge([i for i in all_xml])
+        data = self.get_stat(all_xml)
+        html_template = Template(HTML_TMPL)
+        html = html_template.render(
+            title=DEFAULT_TITLE,
+            generator="j2html",
+            stylesheet=Template(STYLESHEET_TMPL).render(),
+            heading=self.generate_heading(data),
+            report=self.generate_report(data, all_xml),
+            ending=Template(ENDING_TMPL).render(),
         )
-        a_lines.append(line)
-    heading = Template(HEADING_TMPL).render(
-        title=saxutils.escape(Template(DEFAULT_TITLE).render()),
-        parameters=''.join(a_lines),
-        description=saxutils.escape(Template(DEFAULT_DESCRIPTION).render()),
-    )
-    return heading
+        with open(args.output, "wb") as f:
+            f.write(html.encode("utf8"))
 
-
-def generate_report_test(rows, tid, cid, test):
-    status = "error"
-    test_txt = ""
-
-    if test.is_passed:
-        status = "passed"
-        test_txt = test.name
-    elif test.is_skipped:
-        status = "skipped"
-        test_txt = (test.result[0].text or '') if test.result else test.name
-    elif test.result and test.result[0].type == 'Failure':
-        status = "failed"
-        test_txt = test.result[0].text or ''
-    has_output = bool(test.system_out or test.system_err or test_txt)
-    tid = "t%s.%s" % (cid + 1, tid + 1)
-    tid = "p%s" % tid if status in ('passed', 'skipped') else "f%s" % tid
-    name = test.name
-    desc = name
-    test_time = test.time
-    try:
-        output = saxutils.escape(
-            (test.system_out or '') + (test.system_err or '') + test_txt)
-    # We expect to get this exception in python2.
-    except UnicodeDecodeError:
-        e = codecs.decode(test.system_err or '', 'utf-8')
-        o = codecs.decode(test.system_out or '', 'utf-8')
-        tt = codecs.decode(test_txt or '', 'utf-8')
-        output = saxutils.escape(o + e + tt)
-    script = Template(REPORT_TEST_OUTPUT_TMPL).render(
-        id=tid,
-        output=output,
-    )
-
-    row = Template(REPORT_TEST_WITH_OUTPUT_TMPL).render(
-        tid=tid,
-        Class=((status in ['skipped', 'passed']) and 'hiddenRow' or 'none'),
-        style=(status == 'error' and 'errorCase' or
-               (status == 'failed' and 'failCase' or
-                (status == 'skipped' and 'skipCase' or
-                 (status == 'passed' and 'passCase' or
-                  'none')))),
-        desc=desc,
-        script=script,
-        status=status,
-        test_time=time_format(test_time),
-    )
-    rows.append(row)
-    if not has_output:
-        return
-
-
-def generate_report(test_data, xml):
-    rfe_sub = re.compile(r"\[r[fe][fe]_id:[^\]]+\]")
-    clac = re.compile(r"^(\[[^\]]+\])+")
-
-    # Groups tests by Feature name - [sriov], [pao], etc
-    clasd_tests = {}
-    for c in xml:
-        name = c.name
-        if clac.search(name):
-            cl_type = clac.search(name).group()
+    def getReportAttributes(self, test_data):
+        """Return report attributes as a list of (name, value).
+        It'll be used in heading.
+        """
+        status = []
+        if test_data["success_count"]:
+            status.append("Pass %s" % test_data["success_count"])
+        if test_data["failure_count"]:
+            status.append("Failure %s" % test_data["failure_count"])
+        if test_data["error_count"]:
+            status.append("Error %s" % test_data["error_count"])
+        if test_data["skip_count"]:
+            status.append("Skip %s" % test_data["skip_count"])
+        if status:
+            status = " ".join(status)
         else:
-            cl_type = name.split()[0]
-        if 'ref_id' in cl_type or 'rfe_id' in cl_type:
-            cl_type = rfe_sub.sub("", cl_type)
-        if cl_type not in clasd_tests:
-            clasd_tests[cl_type] = [c]
-        else:
-            clasd_tests[cl_type].append(c)
+            status = "none"
+        return [
+            ("Status", status),
+        ]
 
-    rows = []
-    total_time = 0
-    for cid, t_class in enumerate(list(clasd_tests.keys())):
-        tests = clasd_tests[t_class]
+    def generate_heading(self, test_data):
+        """Generate heading for the report and status line."""
+        report_attrs = self.getReportAttributes(test_data)
+        a_lines = []
+        for name, value in report_attrs:
+            line = Template(HEADING_ATTRIBUTE_TMPL).render(
+                name=saxutils.escape(name),
+                value=saxutils.escape(value),
+            )
+            a_lines.append(line)
+        heading = Template(HEADING_TMPL).render(
+            title=saxutils.escape(Template(DEFAULT_TITLE).render()),
+            parameters="".join(a_lines),
+            description=saxutils.escape(Template(DEFAULT_DESCRIPTION).render()),
+        )
+        return heading
 
-        desc = "%s tests suite" % t_class.capitalize()
-        pa = []
-        fa = []
-        sk = []
-        er = []
-        time_suite = 0
-        for t in tests:
-            if t.is_passed:
-                pa.append(t)
-            elif t.is_skipped:
-                sk.append(t)
-            elif t.result and t.result[0].type == 'Failure':
-                fa.append(t)
+    def generate_report_test(self, rows, tid, cid, test):
+        """Generate the HTML row of each test with its output."""
+        status = "error"
+        test_txt = ""
+
+        if test.is_passed:
+            status = "passed"
+            test_txt = test.name
+        elif test.is_skipped:
+            status = "skipped"
+            test_txt = (test.result[0].text or "") if test.result else test.name
+        elif test.result and test.result[0].type == "Failure":
+            status = "failed"
+            test_txt = test.result[0].text or ""
+        has_output = bool(test.system_out or test.system_err or test_txt)
+        tid = "t%s.%s" % (cid + 1, tid + 1)
+        tid = "p%s" % tid if status in ("passed", "skipped") else "f%s" % tid
+        name = test.name
+        desc = name
+        test_time = test.time
+        try:
+            output = saxutils.escape(
+                (test.system_out or "") + (test.system_err or "") + test_txt
+            )
+        # We expect to get this exception in python2.
+        except UnicodeDecodeError:
+            e = codecs.decode(test.system_err or "", "utf-8")
+            o = codecs.decode(test.system_out or "", "utf-8")
+            tt = codecs.decode(test_txt or "", "utf-8")
+            output = saxutils.escape(o + e + tt)
+        script = Template(REPORT_TEST_OUTPUT_TMPL).render(
+            id=tid,
+            output=output,
+        )
+
+        row = Template(REPORT_TEST_WITH_OUTPUT_TMPL).render(
+            tid=tid,
+            Class=((status in ["skipped", "passed"]) and "hiddenRow" or "none"),
+            style=(
+                status == "error"
+                and "errorCase"
+                or (
+                    status == "failed"
+                    and "failCase"
+                    or (
+                        status == "skipped"
+                        and "skipCase"
+                        or (status == "passed" and "passCase" or "none")
+                    )
+                )
+            ),
+            desc=desc,
+            script=script,
+            status=status,
+            test_time=time_format(test_time),
+        )
+        rows.append(row)
+        if not has_output:
+            return
+
+    def generate_report(self, test_data, xml):
+        """Generate the report of each suite with its tests."""
+        rfe_sub = re.compile(r"\[r[fe][fe]_id:[^\]]+\]")
+        clac = re.compile(r"^(\[[^\]]+\])+")
+
+        # Groups tests by Feature name - [sriov], [pao], etc
+        clasd_tests = {}
+        for c in xml:
+            name = c.name
+            if clac.search(name):
+                cl_type = clac.search(name).group()
             else:
-                er.append(t)
-            time_suite += t.time
-        ne, nf, ns, np = len(er), len(fa), len(sk), len(pa)
-        all_skipped = len(er) + len(fa) + len(sk) + len(pa) == len(sk)
-        total_time += time_suite
+                cl_type = name.split()[0]
+            if "ref_id" in cl_type or "rfe_id" in cl_type:
+                cl_type = rfe_sub.sub("", cl_type)
+            if cl_type not in clasd_tests:
+                clasd_tests[cl_type] = [c]
+            else:
+                clasd_tests[cl_type].append(c)
 
-        rows.append(
-            Template(REPORT_CLASS_TMPL).render(
-                style=(ne > 0 and 'errorClass'
-                       or nf > 0 and 'failClass'
-                       or all_skipped and 'skipClass'
-                       or 'passClass'),
-                desc=desc,
-                count=np + nf + ne + ns,
-                Pass=np,
-                fail=nf,
-                error=ne,
-                skip=ns,
-                time_suite_total=time_format(time_suite),
-                cid='c%s' % (cid + 1),
-            ))
+        # Generate reports for each test
+        rows = []
+        total_time = 0
+        for cid, t_class in enumerate(list(clasd_tests.keys())):
+            tests = clasd_tests[t_class]
 
-        for tid, t in enumerate(tests):
-            generate_report_test(rows, tid, cid, t)
+            desc = "%s tests suite" % t_class.capitalize()
+            pa = []
+            fa = []
+            sk = []
+            er = []
+            time_suite = 0
+            for t in tests:
+                if t.is_passed:
+                    pa.append(t)
+                elif t.is_skipped:
+                    sk.append(t)
+                elif t.result and t.result[0].type == "Failure":
+                    fa.append(t)
+                else:
+                    er.append(t)
+                time_suite += t.time
+            ne, nf, ns, np = len(er), len(fa), len(sk), len(pa)
+            all_skipped = len(er) + len(fa) + len(sk) + len(pa) == len(sk)
+            total_time += time_suite
 
-    report = Template(REPORT_TMPL).render(
-        test_list=''.join(rows),
-        count=str(test_data['success_count'] + test_data['failure_count'] +
-                  test_data['error_count'] + test_data['skip_count']),
-        Pass=str(test_data['success_count']),
-        fail=str(test_data['failure_count']),
-        error=str(test_data['error_count']),
-        skip=str(test_data['skip_count']),
-        total_time=time_format(total_time),
-    )
-    return report
+            # Add template for each test line
+            rows.append(
+                Template(REPORT_CLASS_TMPL).render(
+                    style=(
+                        ne > 0
+                        and "errorClass"
+                        or nf > 0
+                        and "failClass"
+                        or all_skipped
+                        and "skipClass"
+                        or "passClass"
+                    ),
+                    desc=desc,
+                    count=np + nf + ne + ns,
+                    Pass=np,
+                    fail=nf,
+                    error=ne,
+                    skip=ns,
+                    time_suite_total=time_format(time_suite),
+                    cid="c%s" % (cid + 1),
+                )
+            )
 
+            for tid, t in enumerate(tests):
+                self.generate_report_test(rows, tid, cid, t)
 
-def get_stat(xml):
-    res = {
-        'success_count': 0,
-        'failure_count': 0,
-        'error_count': 0,
-        'skip_count': 0,
-    }
+        # Write the report of Test suite with all tests inside in rows
+        report = Template(REPORT_TMPL).render(
+            test_list="".join(rows),
+            count=str(
+                test_data["success_count"]
+                + test_data["failure_count"]
+                + test_data["error_count"]
+                + test_data["skip_count"]
+            ),
+            Pass=str(test_data["success_count"]),
+            fail=str(test_data["failure_count"]),
+            error=str(test_data["error_count"]),
+            skip=str(test_data["skip_count"]),
+            total_time=time_format(total_time),
+        )
+        return report
 
-    for t in xml:
-        if t.is_passed:
-            res['success_count'] += 1
-        elif t.is_skipped:
-            res['skip_count'] += 1
-        elif t.result and t.result[0].type == 'Failure':
-            res['failure_count'] += 1
-        else:
-            res['error_count'] += 1
-    return res
+    def get_stat(self, xml):
+        """Get the statistics of the testsuite. Will be used in header and report"""
+        res = {
+            "success_count": 0,
+            "failure_count": 0,
+            "error_count": 0,
+            "skip_count": 0,
+        }
 
+        for t in xml:
+            if t.is_passed:
+                res["success_count"] += 1
+            elif t.is_skipped:
+                res["skip_count"] += 1
+            elif t.result and t.result[0].type == "Failure":
+                res["failure_count"] += 1
+            else:
+                res["error_count"] += 1
+        return res
 
-def merge(xml_tests):
-    all_tests = dict()
-    flat = []
-    for suite in xml_tests:
-        if isinstance(suite, TestSuite):
-            flat += [i for i in suite]
-        else:
-            flat.append(suite)
-    for i in flat:
-        name = i.name
-        if name not in all_tests:
-            all_tests[name] = i
-        else:
-            # Overwrite skipped tests with results
-            if all_tests[name].is_skipped and not i.is_skipped:
+    def merge(self, xml_tests):
+        """Merge the testsuites and tests."""
+        all_tests = dict()
+        flat = []
+        for suite in xml_tests:
+            if isinstance(suite, TestSuite):
+                flat += [i for i in suite]
+            else:
+                flat.append(suite)
+        for i in flat:
+            name = i.name
+            if name not in all_tests:
                 all_tests[name] = i
-    return list(all_tests.values())
+            else:
+                # Overwrite skipped tests with results
+                if all_tests[name].is_skipped and not i.is_skipped:
+                    all_tests[name] = i
+        return list(all_tests.values())
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Extract tasks from a playbook."
-    )
+    parser = argparse.ArgumentParser(description="Extract tasks from a playbook.")
     parser.add_argument(
         "--output",
         "-o",
-        help="Output file. Default: cnf_result.html",
+        help="Output file. Default: %(default)s",
         default="cnf_result.html",
+    )
+    parser.add_argument(
+        "--format",
+        "-f",
+        help="Format of input file, choose from %(choices)s. Default: %(default)s",
+        choices=["json", "xml"],
+        default="xml",
     )
     parser.add_argument(
         "files",
@@ -526,26 +577,8 @@ def main():
         help="Files to extract tests from.",
     )
     args = parser.parse_args()
-
-    all_xml = JUnitXml.fromfile(args.files[0])
-    for i in args.files[1:]:
-        all_xml += JUnitXml.fromfile(i)
-    if len(args.files) > 1:
-        all_xml = merge(all_xml)
-    data = get_stat(all_xml)
-    html_template = Template(HTML_TMPL)
-    html = html_template.render(
-        title=DEFAULT_TITLE,
-        generator="j2html",
-        stylesheet=Template(STYLESHEET_TMPL).render(),
-        heading=generate_heading(data),
-        report=generate_report(data, all_xml),
-        ending=Template(ENDING_TMPL).render(),
-
-    )
-    with open(args.output, "wb") as f:
-        f.write(html.encode('utf8'))
+    HTMLReport(args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
