@@ -60,7 +60,7 @@ def get_name(x):
             if t in line and re.search(rf'^\W*({t})\W', line):
                 name = line.strip()
                 if len(x) > (ind + 1):
-                    name += " " + clean_line(x[ind+1]).strip()
+                    name += " " + clean_line(x[ind + 1]).strip()
                 name = name.strip('"')
                 break
         if name:
