@@ -6,6 +6,7 @@
 
 import argparse
 import codecs
+import json
 import re
 from jinja2 import Template
 
@@ -309,23 +310,40 @@ def time_format(t):
 
 class HTMLReport:
     def __init__(self, args):
-        all_xml = JUnitXml.fromfile(args.files[0])
-        for i in args.files[1:]:
-            all_xml += JUnitXml.fromfile(i)
-        if len(args.files) > 1:
-            all_xml = self.merge(all_xml)
-        if isinstance(all_xml, JUnitXml):
-            all_xml = self.merge([i for i in all_xml])
-        data = self.get_stat(all_xml)
+        if args.format == "xml":
+            all_xml = JUnitXml.fromfile(args.files[0])
+            for i in args.files[1:]:
+                all_xml += JUnitXml.fromfile(i)
+            if len(args.files) > 1:
+                all_xml = self.merge(all_xml)
+            if isinstance(all_xml, JUnitXml):
+                all_xml = self.merge([i for i in all_xml])
+            data = self.get_stat(all_xml)
+        elif args.format == "json":
+            all_json = {}
+            for file in args.files:
+                with open(file, "r") as f:
+                    all_json.update(json.load(f))
+            data = self.get_stat_json(all_json)
         html_template = Template(HTML_TMPL)
-        html = html_template.render(
-            title=DEFAULT_TITLE,
-            generator="j2html",
-            stylesheet=Template(STYLESHEET_TMPL).render(),
-            heading=self.generate_heading(data),
-            report=self.generate_report(data, all_xml),
-            ending=Template(ENDING_TMPL).render(),
-        )
+        if args.format == "xml":
+            html = html_template.render(
+                title=DEFAULT_TITLE,
+                generator="j2html",
+                stylesheet=Template(STYLESHEET_TMPL).render(),
+                heading=self.generate_heading(data),
+                report=self.generate_report(data, all_xml),
+                ending=Template(ENDING_TMPL).render(),
+            )
+        elif args.format == "json":
+            html = html_template.render(
+                title=DEFAULT_TITLE,
+                generator="j2html",
+                stylesheet=Template(STYLESHEET_TMPL).render(),
+                heading=self.generate_heading(data),
+                report=self.generate_report_json(data, all_json),
+                ending=Template(ENDING_TMPL).render(),
+            )
         with open(args.output, "wb") as f:
             f.write(html.encode("utf8"))
 
@@ -366,6 +384,60 @@ class HTMLReport:
             description=saxutils.escape(Template(DEFAULT_DESCRIPTION).render()),
         )
         return heading
+
+    def generate_report_test_json(self, rows, tid, cid, test):
+        """Generate the HTML row of each test with its output."""
+        status = "error"
+        test_txt = ""
+        test_dict = test[list(test.keys())[0]]
+        test_result = test_dict["result"]
+        test_time = float(test_dict["time"])
+        test_name = list(test.keys())[0]
+
+        if test_result == 'pass':
+            status = "passed"
+            test_txt = test_name
+        elif test_result == 'skip':
+            status = "skipped"
+            test_txt = test_name
+        elif test_result == 'fail':
+            status = "failed"
+            test_txt = ""
+        # has_output = bool(test.system_out or test.system_err or test_txt)
+        tid = "t%s.%s" % (cid + 1, tid + 1)
+        tid = "p%s" % tid if status in ("passed", "skipped") else "f%s" % tid
+        name = test_name
+        desc = name
+        output = test_txt
+        script = Template(REPORT_TEST_OUTPUT_TMPL).render(
+            id=tid,
+            output=output,
+        )
+
+        row = Template(REPORT_TEST_WITH_OUTPUT_TMPL).render(
+            tid=tid,
+            Class=((status in ["skipped", "passed"]) and "hiddenRow" or "none"),
+            style=(
+                status == "error"
+                and "errorCase"
+                or (
+                    status == "failed"
+                    and "failCase"
+                    or (
+                        status == "skipped"
+                        and "skipCase"
+                        or (status == "passed" and "passCase" or "none")
+                    )
+                )
+            ),
+            desc=desc,
+            script=script,
+            status=status,
+            test_time=time_format(test_time),
+        )
+        rows.append(row)
+        # if not has_output:
+        #     return
 
     def generate_report_test(self, rows, tid, cid, test):
         """Generate the HTML row of each test with its output."""
@@ -516,6 +588,95 @@ class HTMLReport:
         )
         return report
 
+    def generate_report_json(self, test_data, all_json):
+        """Generate the report of each suite with its tests."""
+        rfe_sub = re.compile(r"\[r[fe][fe]_id:[^\]]+\]")
+        clac = re.compile(r"^(\[[^\]]+\])+")
+
+        # Groups tests by Feature name - [sriov], [pao], etc
+        clasd_tests = {}
+        for c in all_json:
+            name = c
+            if clac.search(name):
+                cl_type = clac.search(name).group()
+            else:
+                cl_type = name.split()[0]
+            if "ref_id" in cl_type or "rfe_id" in cl_type:
+                cl_type = rfe_sub.sub("", cl_type)
+            if cl_type not in clasd_tests:
+                clasd_tests[cl_type] = {c: all_json[c]}
+            else:
+                clasd_tests[cl_type].update({c: all_json[c]})
+
+        # Generate reports for each test
+        rows = []
+        total_time = 0
+        for cid, t_class in enumerate(list(clasd_tests.keys())):
+            tests = clasd_tests[t_class]
+
+            desc = "%s tests suite" % t_class.capitalize()
+            pa = []
+            fa = []
+            sk = []
+            er = []
+            time_suite = 0
+            for t in tests:
+                if tests[t]['result'] == 'pass':
+                    pa.append({t: tests[t]})
+                elif tests[t]['result'] == 'skip':
+                    sk.append({t: tests[t]})
+                elif tests[t]['result'] == 'fail':
+                    fa.append({t: tests[t]})
+                else:
+                    er.append({t: tests[t]})
+                time_suite += float(tests[t]['time'])
+            ne, nf, ns, np = len(er), len(fa), len(sk), len(pa)
+            all_skipped = len(er) + len(fa) + len(sk) + len(pa) == len(sk)
+            total_time += time_suite
+
+            # Add template for each test line
+            rows.append(
+                Template(REPORT_CLASS_TMPL).render(
+                    style=(
+                        ne > 0
+                        and "errorClass"
+                        or nf > 0
+                        and "failClass"
+                        or all_skipped
+                        and "skipClass"
+                        or "passClass"
+                    ),
+                    desc=desc,
+                    count=np + nf + ne + ns,
+                    Pass=np,
+                    fail=nf,
+                    error=ne,
+                    skip=ns,
+                    time_suite_total=time_format(time_suite),
+                    cid="c%s" % (cid + 1),
+                )
+            )
+
+            for tid, t in enumerate([{i: j} for i, j in tests.items()]):
+                self.generate_report_test_json(rows, tid, cid, t)
+
+        # Write the report of Test suite with all tests inside in rows
+        report = Template(REPORT_TMPL).render(
+            test_list="".join(rows),
+            count=str(
+                test_data["success_count"]
+                + test_data["failure_count"]
+                + test_data["error_count"]
+                + test_data["skip_count"]
+            ),
+            Pass=str(test_data["success_count"]),
+            fail=str(test_data["failure_count"]),
+            error=str(test_data["error_count"]),
+            skip=str(test_data["skip_count"]),
+            total_time=time_format(total_time),
+        )
+        return report
+
     def get_stat(self, xml):
         """Get the statistics of the testsuite. Will be used in header and report"""
         res = {
@@ -531,6 +692,26 @@ class HTMLReport:
             elif t.is_skipped:
                 res["skip_count"] += 1
             elif t.result and t.result[0].type == "Failure":
+                res["failure_count"] += 1
+            else:
+                res["error_count"] += 1
+        return res
+
+    def get_stat_json(self, all_json):
+        """Get the statistics of the testsuite. Will be used in header and report"""
+        res = {
+            "success_count": 0,
+            "failure_count": 0,
+            "error_count": 0,
+            "skip_count": 0,
+        }
+
+        for t in all_json:
+            if all_json[t]['result'] == 'pass':
+                res["success_count"] += 1
+            elif all_json[t]['result'] == 'skip':
+                res["skip_count"] += 1
+            elif all_json[t]['result'] == 'fail':
                 res["failure_count"] += 1
             else:
                 res["error_count"] += 1
