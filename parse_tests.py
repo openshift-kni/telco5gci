@@ -18,7 +18,7 @@ SUITES = [
     "gatekeeper",
     "tuningcni",
     "pao",
-    "Metallb",
+    "metallb",
     "xt_u32",
     "sro",
     "performance",
@@ -32,8 +32,8 @@ SUITES = [
 
 
 def clean_line(line):
-    line = color_code_pattern.sub('', line)
-    line = line.strip()
+    line = color_code_pattern.sub('', line.strip())
+    # line = line.strip('\n')
     return line
 
 
@@ -57,10 +57,11 @@ def get_name(x):
     for ind, line in enumerate(x):
         line = clean_line(line)
         for t in SUITES:
-            if t in line and re.search(rf'^\W*({t})\W', line):
-                name = line.strip()
+            if (t in line and re.search(rf'^\W*(?:\[r[fe][fe]_id[^]]*\])?(?:\[test_id[^]]*\])?\W*({t})\W', line)) or (
+                    t == 'metallb' and 'MetalLB' in line):
+                name = line
                 if len(x) > (ind + 1):
-                    name += " " + clean_line(x[ind + 1]).strip()
+                    name += " " + clean_line(x[ind + 1])
                 name = name.strip('"')
                 break
         if name:
@@ -128,11 +129,8 @@ def parse_data(fpath):
     with open(fpath) as f:
         text = f.readlines()
     start = 0
-    t_started = False
     for ind, line in enumerate(text):
         if "Running Suite: CNF Features e2e integration tests" in line:
-            t_started = True
-        if t_started and "------------------------------" in line:
             start = ind
             break
     else:
