@@ -27,7 +27,8 @@ SUITES = [
     "ovs_qos",
     "s2i",
     "dpdk",
-    "fec"
+    "fec",
+    "multinetworkpolicy",
 ]
 
 
@@ -146,7 +147,7 @@ def parse_data(fpath):
             chunk = []
         else:
             if ("/tmp" not in line
-                and "BeforeEach" not in line
+                and "[BeforeEach]" not in line
                     and '[It]' not in line):
                 chunk.append(line)
 
