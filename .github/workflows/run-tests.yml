@@ -74,6 +74,14 @@ jobs:
         run: |
           /tmp/venv/bin/python ./junit2json.py tests/*.xml -o htmls/all_file.json
 
+      - name: Run parser on Ginkgo v1 log file
+        run: |
+          /tmp/venv/bin/python ./parse_tests.py -p tests/ginkgo-v1-build.output -o htmls/parsed_ginkgo_v1.json
+
+      - name: Run HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /tmp/venv/bin/python ./j2html.py htmls/parsed_ginkgo_v1.json -f json -o htmls/parsed_ginkgo_v1.html
+
       - name: Store migrated collection artifacts
         uses: actions/upload-artifact@v3
         with:
