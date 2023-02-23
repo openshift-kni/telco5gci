@@ -120,7 +120,7 @@ def get_files_by_url(url):
 
 def parse_data(fpath):
     res = {}
-    with open(fpath) as f:
+    with open(fpath, encoding="utf-8") as f:
         text = f.readlines()
     start = 0
     for ind, line in enumerate(text):
