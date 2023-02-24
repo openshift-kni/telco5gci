@@ -147,7 +147,7 @@ def get_files_by_url(url, tests=None):
 
 def parse_data(fpath):
     res = {'total_cycle_time': 0}
-    with open(fpath) as f:
+    with open(fpath, encoding="utf-8") as f:
         text = f.readlines()
     start = 0
     end = len(text)
