@@ -1,0 +1,93 @@
+name: Container tests of HTML and JSON generation
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  # schedule:
+  #   - cron: 3 0 * * *  # Run daily at 0:03 UTC
+
+jobs:
+  test-html-json-generator:
+    name: Container telco with HTML/JSON report
+    runs-on: ${{ matrix.runner-os }}
+    strategy:
+      matrix:
+        runner-os:
+          - ubuntu-20.04
+    steps:
+
+      - name: Check out ${{ github.repository }} on disk
+        uses: actions/checkout@v3
+
+      - name: Prepare and start container
+        run: |
+          docker run -d \
+            --rm \
+            --name testpy36 \
+            -v $(pwd):/data:Z \
+            registry.ci.openshift.org/ci/telco-bastion:latest sleep 2h
+          docker exec testpy36 pip3 install -r /data/requirements.txt
+          mkdir -p container-htmls
+
+      - name: Run on one file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/cnftests-junit.xml -o /data/container-htmls/one_file.html"
+
+      - name: Run on multiple files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/cnftests-junit_*.xml -o /data/container-htmls/multi_file.html"
+
+      - name: Run on validation files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/validation_junit_*.xml -o /data/container-htmls/validation_file.html"
+
+      - name: Run on setup files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/setup_junit_*.xml -o /data/container-htmls/setup_file.html"
+
+      - name: Run on all files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/*.xml -o /data/container-htmls/all_file.html"
+
+      - name: Run JSON on one file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/cnftests-junit.xml -o /data/container-htmls/one_file.json"
+
+      - name: Run JSON on multiple files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/cnftests-junit_*.xml -o /data/container-htmls/multi_file.json"
+
+      - name: Run JSON on validation files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/validation_junit_*.xml -o /data/container-htmls/validation_file.html"
+
+      - name: Run JSON on setup files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/setup_junit_*.xml -o /data/container-htmls/setup_file.json"
+
+      - name: Run JSON on all files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/*.xml -o /data/container-htmls/all_file.json"
+
+      - name: Run parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_tests.py -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/parsed_ginkgo_v1.json"
+
+      - name: Run HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/parsed_ginkgo_v1.json -f json -o /data/container-htmls/parsed_ginkgo_v1.html"
+
+      - name: Run validations parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_validations.py -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/validations_ginkgo_v1.json"
+
+      - name: Run validations HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/validations_ginkgo_v1.json -f json -o /data/container-htmls/validations_ginkgo_v1.html"
+
+      - name: Store migrated collection artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: collection
+          path: container-htmls
