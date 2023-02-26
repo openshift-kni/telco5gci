@@ -7,12 +7,12 @@ import re
 import requests
 import sys
 
-ansi = re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
-color_code_pattern = re.compile(r'\033\[[0-9;]*m')
-ttime = re.compile(r'([\d\.]+) seconds')
-spex_time = re.compile(r'Ran \d+ of \d+ Specs in ([\d\.]+) seconds')
-validation_re = r'^\W*(?:validation)?\W*(%s)\W'
-test_re = r'^\W*(?:\[r[fe][fe]_id[^]]*\])?(?:\[test_id[^]]*\])?\W*(%s)\W'
+ansi = re.compile(r"(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]")
+color_code_pattern = re.compile(r"\033\[[0-9;]*m")
+ttime = re.compile(r"([\d\.]+) seconds")
+spex_time = re.compile(r"Ran \d+ of \d+ Specs in ([\d\.]+) seconds")
+validation_re = r"^\W*(?:validation)?\W*(%s)\W"
+test_re = r"^\W*(?:\[r[fe][fe]_id[^]]*\])?(?:\[test_id[^]]*\])?\W*(%s)\W"
 
 SUITES = [
     "vrf",
@@ -37,7 +37,7 @@ SUITES = [
 
 
 def clean_line(line):
-    line = color_code_pattern.sub('', line.strip())
+    line = color_code_pattern.sub("", line.strip())
     # line = line.strip('\n')
     return line
 
@@ -64,7 +64,8 @@ def get_name(x, validation=False):
         line = clean_line(line)
         for t in SUITES:
             if (t in line and re.search(regex % t, line)) or (
-                    t == 'metallb' and 'MetalLB' in line):
+                t == "metallb" and "MetalLB" in line
+            ):
                 name = line
                 if len(x) > (ind + 1):
                     name += " " + clean_line(x[ind + 1])
@@ -107,8 +108,8 @@ def update_spex(r, x):
 
 
 def get_artifact_link(url):
-    if '/artifacts' in url:
-        url = url.split('/artifacts')[0]
+    if "/artifacts" in url:
+        url = url.split("/artifacts")[0]
         return url
     q = requests.get(url)
     if not q.ok:
@@ -164,7 +165,7 @@ def parse_test_data(fpath):
         else:
             if ("/tmp" not in line
                 and "[BeforeEach]" not in line
-                    and '[It]' not in line):
+                    and "[It]" not in line):
                 chunk.append(line)
 
     for z in tests_list:
@@ -178,7 +179,7 @@ def parse_test_data(fpath):
 
 
 def parse_validation_data(fpath):
-    res = {'total_cycle_time': 0}
+    res = {"total_cycle_time": 0}
     with open(fpath, encoding="utf-8") as f:
         text = f.readlines()
     start = 0
@@ -194,7 +195,8 @@ def parse_validation_data(fpath):
         return res
     for ind, line in enumerate(text):
         if "Running Suite: CNF Features e2e integration tests" in line or (
-                "Running Suite: CNF Features e2e setup" in line):
+            "Running Suite: CNF Features e2e setup" in line
+        ):
             end = ind
             break
 
@@ -203,14 +205,15 @@ def parse_validation_data(fpath):
     chunk = []
     for line in need:
         if "------------------------------" in line or (
-                "Running Suite: CNF Features e2e validation" in line):
+            "Running Suite: CNF Features e2e validation" in line
+        ):
             if chunk:
                 tests_list.append(chunk)
             chunk = []
         else:
             if ("/tmp" not in line
                 and "[BeforeEach]" not in line
-                    and '[It]' not in line):
+                    and "[It]" not in line):
                 chunk.append(line)
 
     for z in tests_list:
@@ -223,7 +226,7 @@ def parse_validation_data(fpath):
             else:
                 full_test_time = res[name]["time"] + time
                 res[name] = {"time": full_test_time, "result": test_result}
-            res['total_cycle_time'] += time
+            res["total_cycle_time"] += time
         if spex_found(z):
             res = update_spex(res, z)
             res["total_cycle_time"] = 0
@@ -256,27 +259,36 @@ def parse_url(job_url, test_type):
 def main():
     parser = argparse.ArgumentParser(
         __doc__,
-        description="Parse Ginkgo test log, i.e. deploy_and_test_sriov.log")
-    parser.add_argument(
-        "-u", "--job-url", help="URL of the job from Prow.",
+        description="Parse Ginkgo test log, i.e. deploy_and_test_sriov.log"
     )
     parser.add_argument(
-        "-p", "--path", help="File path with ginkgo log."
+        "-u",
+        "--job-url",
+        help="URL of the job from Prow.",
+    )
+    parser.add_argument("-p", "--path", help="File path with ginkgo log.")
+    parser.add_argument(
+        "-o",
+        "--output-file",
+        default="/tmp/us_result.json",
+        help="Output file for result. (default=/tmp/us_result.json)",
     )
     parser.add_argument(
-        "-o", "--output-file", default="/tmp/us_result.json",
-        help="Output file for result. (default=/tmp/us_result.json)"
+        "-f",
+        "--format",
+        default="json",
+        choices=["json"],
+        help="Output file format (default=json).",
     )
     parser.add_argument(
-        "-f", "--format", default="json", choices=["json"],
-        help="Output file format (default=json)."
-    )
-    parser.add_argument(
-        "-t", "--test-type",
+        "-t",
+        "--test-type",
         default="all",
         choices=["all", "validations", "tests"],
-        help=("What to extract from logs. Choose from %(choices)s. "
-              "Default: %(default)s")
+        help=(
+            "What to extract from logs. Choose from %(choices)s. "
+            "Default: %(default)s"
+        ),
     )
     args = parser.parse_args()
     if args.job_url:
@@ -288,5 +300,5 @@ def main():
     work_out(result, args.output_file, args.format)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
