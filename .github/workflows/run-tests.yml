@@ -90,6 +90,34 @@ jobs:
         run: |
           /tmp/venv/bin/python ./j2html.py htmls/validations_ginkgo_v1.json -f json -o htmls/validations_ginkgo_v1.html
 
+      - name: Run validations and tests log parser (default) on Ginkgo v1 log file
+        run: |
+          /tmp/venv/bin/python ./parse_log.py -p tests/ginkgo-v1-build.output -o htmls/log_all_ginkgo_v1.json
+
+      - name: Run validations and tests log parser on Ginkgo v1 log file
+        run: |
+          /tmp/venv/bin/python ./parse_log.py -t all -p tests/ginkgo-v1-build.output -o htmls/log_all_ginkgo_v1-2.json
+
+      - name: Run validations log parser on Ginkgo v1 log file
+        run: |
+          /tmp/venv/bin/python ./parse_log.py -t validations -p tests/ginkgo-v1-build.output -o htmls/log_validations_ginkgo_v1.json
+
+      - name: Run tests log parser on Ginkgo v1 log file
+        run: |
+          /tmp/venv/bin/python ./parse_log.py -t tests -p tests/ginkgo-v1-build.output -o htmls/log_tests_ginkgo_v1.json
+
+      - name: Run validations HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /tmp/venv/bin/python ./j2html.py htmls/log_validations_ginkgo_v1.json -f json -o htmls/log_validations_ginkgo_v1.html
+
+      - name: Run tests HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /tmp/venv/bin/python ./j2html.py htmls/log_tests_ginkgo_v1.json -f json -o htmls/log_validations_ginkgo_v1.html
+
+      - name: Run validations and tests HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /tmp/venv/bin/python ./j2html.py htmls/log_all_ginkgo_v1-2.json -f json -o htmls/log_all_ginkgo_v1.html
+
       - name: Store migrated collection artifacts
         uses: actions/upload-artifact@v3
         with:
