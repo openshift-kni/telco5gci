@@ -104,6 +104,9 @@ def update_spex(r, x):
 
 
 def get_artifact_link(url):
+    if '/artifacts' in url:
+        url = url.split('/artifacts')[0]
+        return url
     q = requests.get(url)
     if not q.ok:
         return None
@@ -118,31 +121,21 @@ def get_artifact_link(url):
     return link
 
 
-def get_files_by_url(url, tests=None):
-    files = []
+def get_files_by_url(url):
     link = get_artifact_link(url)
     if not link:
         print(f"Can't get artifacts link from URL {url}")
         sys.exit(1)
     build_id = url.strip("/").split("/")[-1]
-    if tests and not isinstance(tests, list):
-        tests = [tests]
-        if tests == ["all"]:
-            tests = SUITES
-        for test in tests:
-            art_link = link + \
-                f"artifacts/e2e-telco5g/telco5g-cnf-tests/artifacts/deploy_and_test_{test}.log"
-            nf = requests.get(art_link)
-            if not nf or not nf.ok and tests == SUITES:
-                continue
-            elif not nf or not nf.ok:
-                print(f"Can't get results for test {test}")
-                continue
-            f_path = os.path.join("/tmp", f"{build_id}_{test}")
-            with open(f_path, "w") as g:
-                g.write(nf.text)
-            files.append(f_path)
-    return files
+    art_link = link + "/artifacts/e2e-telco5g-cnftests/telco5g-cnf-tests/build-log.txt"
+    nf = requests.get(art_link)
+    if not nf or not nf.ok:
+        print(f"Can't get results for build {build_id}")
+        return
+    f_path = os.path.join("/tmp", f"build_log_{build_id}.log")
+    with open(f_path, "w") as g:
+        g.write(nf.text)
+    return f_path
 
 
 def parse_data(fpath):
@@ -205,19 +198,16 @@ def work_out(result, out, format):
             json.dump(result, f)
 
 
-def parse_files(paths, test_suite, output_file, format):
+def parse_files(path):
     data = {}
-    if not isinstance(paths, list):
-        paths = [paths]
-    for p in paths:
-        file_data = parse_data(p)
-        data.update(file_data)
+    file_data = parse_data(path)
+    data.update(file_data)
     return data
 
 
-def parse_url(job_url, test_suite, output_file, format):
-    files = get_files_by_url(job_url, test_suite)
-    return parse_files(files, test_suite, output_file, format)
+def parse_url(job_url):
+    file_p = get_files_by_url(job_url)
+    return parse_files(file_p)
 
 
 def main():
@@ -231,17 +221,6 @@ def main():
         "-p", "--path", help="File path with ginkgo log."
     )
     parser.add_argument(
-        "-t",
-        "--test-suite",
-        choices=SUITES + ['all'],
-        default='all',
-        help=(
-            "Test suite to parse. "
-            f"Default 'all'. "
-            f"Choose from {SUITES + ['all']}"
-        )
-    )
-    parser.add_argument(
         "-o", "--output-file", default="/tmp/us_result.json",
         help="Output file for result. (default=/tmp/us_result.json)"
     )
@@ -251,12 +230,10 @@ def main():
     )
     args = parser.parse_args()
     if args.job_url:
-        result = parse_url(args.job_url, args.test_suite,
-                           args.output_file, args.format)
+        result = parse_url(args.job_url)
 
     if args.path:
-        result = parse_files(args.path, args.test_suite,
-                             args.output_file, args.format)
+        result = parse_files(args.path)
 
     work_out(result, args.output_file, args.format)
 
