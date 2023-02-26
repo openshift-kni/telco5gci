@@ -86,6 +86,38 @@ jobs:
         run: |
           /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/validations_ginkgo_v1.json -f json -o /data/container-htmls/validations_ginkgo_v1.html"
 
+      - name: Run validations log parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_log.py -t validations -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/log_validations_ginkgo_v1.json"
+
+      - name: Run validations log HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/log_validations_ginkgo_v1.json -f json -o /data/container-htmls/log_validations_ginkgo_v1.html"
+
+      - name: Run tests log parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_log.py -t tests -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/log_tests_ginkgo_v1.json"
+
+      - name: Run validations log HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/log_tests_ginkgo_v1.json -f json -o /data/container-htmls/log_tests_ginkgo_v1.html"
+
+      - name: Run tests and validations (default) log parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_log.py -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/log_all_ginkgo_v1-1.json"
+
+      - name: Run tests and validations (default) log HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/log_all_ginkgo_v1-1.json -f json -o /data/container-htmls/log_all_ginkgo_v1-1.html"
+
+      - name: Run tests and validations (explicit) log parser on Ginkgo v1 log file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/parse_log.py -t all -p /data/tests/ginkgo-v1-build.output -o /data/container-htmls/log_all_ginkgo_v1-2.json"
+
+      - name: Run tests and validations (explicit) log HTML on Ginkgo v1 JSON parsed file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/log_all_ginkgo_v1-2.json -f json -o /data/container-htmls/log_all_ginkgo_v1-2.html"
+
       - name: Store migrated collection artifacts
         uses: actions/upload-artifact@v3
         with:
