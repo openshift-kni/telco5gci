@@ -84,7 +84,7 @@ def main():
     all_xml = JUnitXml.fromfile(args.files[0])
     for i in args.files[1:]:
         all_xml += JUnitXml.fromfile(i)
-    if len(args.files) > 1:
+    if len(args.files) > 1 or isinstance(all_xml, JUnitXml):
         all_xml = merge(all_xml)
     data = get_stat(all_xml)
 

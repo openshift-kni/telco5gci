@@ -58,6 +58,10 @@ jobs:
         run: |
           /tmp/venv/bin/python ./junit2json.py tests/cnftests-junit.xml -o htmls/one_file.json
 
+      - name: Run JSON on one nested file
+        run: |
+          /tmp/venv/bin/python ./junit2json.py tests/nested-cnftests-junit.xml -o htmls/one_nested_file.json
+
       - name: Run JSON on multiple files
         run: |
           /tmp/venv/bin/python ./junit2json.py tests/cnftests-junit_*.xml -o htmls/multi_file.json
