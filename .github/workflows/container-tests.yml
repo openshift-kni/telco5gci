@@ -50,6 +50,26 @@ jobs:
         run: |
           /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/tests/*.xml -o /data/container-htmls/all_file.html"
 
+      - name: Run mail on one file
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2mailhtml.py /data/tests/cnftests-junit.xml -o /data/container-htmls/one_mail.html"
+
+      - name: Run mail on multiple files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2mailhtml.py /data/tests/cnftests-junit_*.xml -o /data/container-htmls/multi_mail.html"
+
+      - name: Run mail on validation files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2mailhtml.py /data/tests/validation_junit_*.xml -o /data/container-htmls/validation_mail.html"
+
+      - name: Run mail on setup files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2mailhtml.py /data/tests/setup_junit_*.xml -o /data/container-htmls/setup_mail.html"
+
+      - name: Run mail on all files
+        run: |
+          /bin/bash ./docker-telco-container-test.sh "python3 /data/j2mailhtml.py /data/tests/*.xml -o /data/container-htmls/all_mail.html"
+
       - name: Run JSON on one file
         run: |
           /bin/bash ./docker-telco-container-test.sh "python3 /data/junit2json.py /data/tests/cnftests-junit.xml -o /data/container-htmls/one_file.json"
