@@ -349,7 +349,7 @@ class HTMLReport:
         # Groups tests by Feature name - [sriov], [pao], etc
         clasd_tests = {}
         for c in xml:
-            name = c.name
+            name = c.name.replace("[It] ", "")
             if clac.search(name):
                 cl_type = clac.search(name).group()
             else:
