@@ -19,10 +19,12 @@ EMPTY_LEFTOVERS = {
     'vpc': [],
     'eip': [],
 }
-HOURS_TO_EXPIRE = 2
+HOURS_TO_EXPIRE = 6
 CI_TAG = 'ci-op-'
 DELETED_RESOURCES = {
     'iam_user': 0,
+    'iam_profile': 0,
+    'iam_role': 0,
     'load_balancer': 0,
     'ec2_instance': 0,
     'nat_gateway': 0,
@@ -421,6 +423,14 @@ class AWSExpiredResources:
             if has_expired(user) or old_dated(user):
                 print(f"IAM user {user['UserName']} expired")
                 self.delete.iam_user(user['UserName'])
+        for profile in self.iam_client.list_instance_profiles()['InstanceProfiles']:
+            if has_expired(profile) or old_dated(profile):
+                print(f"IAM role {profile['InstanceProfileName']} expired")
+                self.delete.iam_instance_profile(profile)
+        for role in self.iam_client.list_roles()['Roles']:
+            if has_expired(role) or old_dated(role):
+                print(f"IAM role {role['RoleName']} expired")
+                self.delete.iam_role(role['RoleName'])
 
 
 class Delete:
@@ -739,6 +749,64 @@ class Delete:
                 return True
             print(f"Error deleting User {user}: {e}")
 
+    # Function to delete an AWS IAM instance profiles
+    def iam_instance_profile(self, profile):
+        try:
+            profile_roles = profile['Roles']
+            profile_name = profile['InstanceProfileName']
+            if not self.dry_run:
+                for role in profile_roles:
+                    self.iam_client.remove_role_from_instance_profile(
+                        InstanceProfileName=profile_name,
+                        RoleName=role['RoleName'])
+                    try:
+                        self.iam_client.delete_role(RoleName=role['RoleName'])
+                    except Exception:
+                        self.iam_role(role['RoleName'])
+            if profile_roles:
+                print(f"Deleted Roles for Instance Profile: {profile_name}")
+            if not self.dry_run:
+                self.iam_client.delete_instance_profile(
+                    InstanceProfileName=profile_name)
+            print(f"Deleted Instance profile: {profile_name}")
+            DELETED_RESOURCES['iam_profile'] += 1
+            return True
+        except ClientError as e:
+            if "does not exist" in str(e):
+                print(f"Instance profile {profile['InstanceProfileName']} does not exist")
+                return True
+            print(f"Error deleting Role {profile['InstanceProfileName']}: {e}")
+
+    # Function to delete an AWS IAM roles
+    def iam_role(self, role):
+        try:
+            at_policies = self.iam_client.list_attached_role_policies(RoleName=role)
+            if not self.dry_run:
+                for policy in at_policies['AttachedPolicies']:
+                    self.iam_client.delete_policy(
+                        RoleName=role, PolicyArn=policy['PolicyArn'])
+            if at_policies.get('AttachedPolicies'):
+                print(f"Deleted Attached Policies for Role: {role}")
+
+            policies = self.iam_client.list_role_policies(RoleName=role)
+            if not self.dry_run:
+                for policy in policies['PolicyNames']:
+                    self.iam_client.delete_role_policy(
+                        RoleName=role, PolicyName=policy)
+            if policies.get('PolicyNames'):
+                print(f"Deleted Policies for Role: {role}")
+
+            if not self.dry_run:
+                self.iam_client.delete_role(RoleName=role)
+            print(f"Deleted Role: {role}")
+            DELETED_RESOURCES['iam_role'] += 1
+            return True
+        except ClientError as e:
+            if "does not exist" in str(e):
+                print(f"Role {role} does not exist")
+                return True
+            print(f"Error deleting Role {role}: {e}")
+
 
 def has_expired(obj):
     def _parse_expiration_date(date_str):
@@ -784,7 +852,13 @@ def old_dated(obj):
         "Name" in obj and obj["Name"].startswith(CI_TAG)
     ) and not (
             "Tags" in obj and has_ci_tag(obj)
-    ) and not ("UserName" in obj and obj["UserName"].startswith(CI_TAG)):
+    ) and not (
+        "UserName" in obj and obj["UserName"].startswith(CI_TAG)
+    ) and not (
+        "RoleName" in obj and obj["RoleName"].startswith(CI_TAG)
+    ) and not (
+        "InstanceProfileName" in obj and obj["InstanceProfileName"].startswith(CI_TAG)
+               ):
         return False
     creation_date = None
     if 'CreateDate' in obj:
@@ -808,7 +882,7 @@ def parse_args():
     import argparse
     parser = argparse.ArgumentParser(description="AWS Resource Deletion")
     parser.add_argument("--tag", default="ci-op-", help="Tag to search for")
-    parser.add_argument("--profile", default="telco", help="AWS Profile to use")
+    parser.add_argument("--profile", default="telco-ci", help="AWS Profile to use")
     parser.add_argument("--region", default=None,
                         choices=['us-east-1', 'us-east-2', 'us-west-1', 'us-west-2'],
                         help="AWS Region to use")
