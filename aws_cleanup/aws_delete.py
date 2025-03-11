@@ -333,9 +333,12 @@ class AWSResourceDeletion:
     def get_volumes_expired(self, tag):
         result = []
         for volume in self.ec2_client.describe_volumes()["Volumes"]:
-            if (volume["Tags"][0]["Key"] == "Name" and volume["Tags"][0]["Value"].startswith(tag) and
-                datetime.datetime.now(datetime.timezone.utc) >
-                    volume["CreateTime"] + datetime.timedelta(hours=HOURS_TO_EXPIRE)):
+            if (
+                volume["Tags"][0]["Key"] == "Name"
+                and volume["Tags"][0]["Value"].startswith(tag)
+                and datetime.datetime.now(datetime.timezone.utc)
+                > volume["CreateTime"] + datetime.timedelta(hours=HOURS_TO_EXPIRE)
+            ):
                 result.append(volume["VolumeId"])
         print("Getting EBS volumes", len(result))
         return result
@@ -351,9 +354,9 @@ class AWSResourceDeletion:
     def get_s3_buckets_expired(self, tag):
         result = []
         for bucket in self.s3_client.list_buckets()["Buckets"]:
-            if (bucket["Name"].startswith(tag) and
-                datetime.datetime.now(datetime.timezone.utc) >
-                    bucket.creation_date + datetime.timedelta(hours=HOURS_TO_EXPIRE)):
+            if bucket["Name"].startswith(tag) and datetime.datetime.now(
+                datetime.timezone.utc
+            ) > bucket.creation_date + datetime.timedelta(hours=HOURS_TO_EXPIRE):
                 result.append(bucket["Name"])
         print("Getting S3 buckets", len(result))
         return result
