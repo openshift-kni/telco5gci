@@ -1163,8 +1163,8 @@ def create_report():
     # Create report content first
     report = (
         f"Hi,\nToday's cleanup run has saved you:\n\n"
-        f"💰 ${TOTAL_SAVED['total']:.2f} USD per hour,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24):.2f} USD per day,\n"
+        f"💰 ${(TOTAL_SAVED['total'] * 24 * 7):.2f} USD per week,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24 * 30):.2f} USD per month,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24 * 365):.2f} USD per year\n\n"
         f"Thanks,\nAWS Cleanup Bot\nSend any questions or comments to sshnaidm@redhat.com"
@@ -1211,8 +1211,9 @@ def main():
     for key, value in DELETED_RESOURCES.items():
         print(f"Deleted total {key} resources: {value}")
     print(
-        f"Total saved:\n${TOTAL_SAVED['total']:.2f} USD per hour,\n"
+        f"Total saved:\n"
         f"${(TOTAL_SAVED['total'] * 24):.2f} USD per day,\n"
+        f"${(TOTAL_SAVED['total'] * 24 * 7):.2f} USD per week,\n"
         f"${(TOTAL_SAVED['total'] * 24 * 30):.2f} USD per month,\n"
         f"${(TOTAL_SAVED['total'] * 24 * 365):.2f} USD per year"
     )
