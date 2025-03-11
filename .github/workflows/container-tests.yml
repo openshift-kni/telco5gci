@@ -139,7 +139,7 @@ jobs:
           /bin/bash ./docker-telco-container-test.sh "python3 /data/j2html.py /data/container-htmls/log_all_ginkgo_v1-2.json -f json -o /data/container-htmls/log_all_ginkgo_v1-2.html"
 
       - name: Store migrated collection artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: collection
           path: container-htmls
