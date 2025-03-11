@@ -162,17 +162,19 @@ class AWSResourceDeletion:
                 if count > 9:
                     print(f"Max number of cycles reached with VPC {vpc['Name']} leftovers: {leftovers}")
                     break
-            if vpc_tag == self.tag:
-                print("Skipping deletion of S3 bucket and volumes, since tag is very generic")
-            elif vpc_tag == "":
+            if vpc_tag == "":
                 print("Skipping deletion of S3 bucket and volumes, since tag is empty")
             else:
-                volumes = self.get_volumes_from_tag(vpc_tag)
+                if vpc_tag == self.tag:
+                    volumes = self.get_volumes_expired(self.tag)
+                    buckets = self.get_s3_buckets_expired(self.tag)
+                else:
+                    volumes = self.get_volumes_from_tag(vpc_tag)
+                    buckets = self.get_s3_buckets_from_tag(vpc_tag)
                 for vol in volumes:
                     result = self.delete.volume(vol)
                     if not result:
                         leftovers["volume"].append(vol)
-                buckets = self.get_s3_buckets_from_tag(vpc_tag)
                 for bucket in buckets:
                     result = self.delete.s3_bucket(bucket)
                     if not result:
@@ -328,10 +330,30 @@ class AWSResourceDeletion:
         print("Getting EBS volumes", len(result))
         return result
 
+    def get_volumes_expired(self, tag):
+        result = []
+        for volume in self.ec2_client.describe_volumes()["Volumes"]:
+            if (volume["Tags"][0]["Key"] == "Name" and volume["Tags"][0]["Value"].startswith(tag) and
+                datetime.datetime.now(datetime.timezone.utc) >
+                    volume["CreateTime"] + datetime.timedelta(hours=HOURS_TO_EXPIRE)):
+                result.append(volume["VolumeId"])
+        print("Getting EBS volumes", len(result))
+        return result
+
     def get_s3_buckets_from_tag(self, tag):
         result = []
         for bucket in self.s3_client.list_buckets()["Buckets"]:
             if bucket["Name"].startswith(tag):
+                result.append(bucket["Name"])
+        print("Getting S3 buckets", len(result))
+        return result
+
+    def get_s3_buckets_expired(self, tag):
+        result = []
+        for bucket in self.s3_client.list_buckets()["Buckets"]:
+            if (bucket["Name"].startswith(tag) and
+                datetime.datetime.now(datetime.timezone.utc) >
+                    bucket.creation_date + datetime.timedelta(hours=HOURS_TO_EXPIRE)):
                 result.append(bucket["Name"])
         print("Getting S3 buckets", len(result))
         return result
