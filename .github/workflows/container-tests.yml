@@ -26,7 +26,7 @@ jobs:
             --rm \
             --name testpy36 \
             -v $(pwd):/data:Z \
-            registry.ci.openshift.org/ci/telco-bastion:latest sleep 2h
+            registry.ci.openshift.org/ci/telco-runner:latest sleep 2h
           docker exec testpy36 pip3 install -r /data/requirements.txt
           mkdir -p container-htmls
 
