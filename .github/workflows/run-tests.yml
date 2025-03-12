@@ -135,7 +135,7 @@ jobs:
           /tmp/venv/bin/python ./j2html.py htmls/log_all_ginkgo_v1-2.json -f json -o htmls/log_all_ginkgo_v1.html
 
       - name: Store migrated collection artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: collection
           path: htmls
