@@ -14,9 +14,9 @@ jobs:
     strategy:
       matrix:
         runner-os:
-          - ubuntu-20.04
+          - ubuntu-latest
         runner-python-version:
-          - 3.6.8 # This is the Python3 version on CI container :shrug:
+          - "3.10" # This is the Python3 version on CI container :shrug:
     steps:
 
       - name: Check out ${{ github.repository }} on disk
