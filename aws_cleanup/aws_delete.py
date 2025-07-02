@@ -180,7 +180,8 @@ class AWSResourceDeletion:
                     if not result:
                         leftovers["s3"].append(bucket)
         expired_resources = AWSExpiredResources(
-            self.ec2_client, self.elb_client, self.elbv2_client, self.s3_client, self.iam_client, self.dry_run
+            self.ec2_client, self.elb_client, self.elbv2_client, self.s3_client, self.iam_client, self.pricing_client,
+            self.dry_run
         )
         expired_resources.eliminate()
         print(f"All resources deleted for region {self.ec2_client.meta.region_name}")
@@ -324,9 +325,10 @@ class AWSResourceDeletion:
     def get_volumes_from_tag(self, tag):
         result = []
         for volume in self.ec2_client.describe_volumes()["Volumes"]:
-            for t in volume["Tags"]:
-                if t["Key"] == "Name" and t["Value"].startswith(tag):
-                    result.append(volume["VolumeId"])
+            if "Tags" in volume and volume["Tags"]:
+                for t in volume["Tags"]:
+                    if t["Key"] == "Name" and t["Value"].startswith(tag):
+                        result.append(volume["VolumeId"])
         print("Getting EBS volumes", len(result))
         return result
 
@@ -364,14 +366,14 @@ class AWSResourceDeletion:
 
 class AWSExpiredResources:
 
-    def __init__(self, ec2_client, elb_client, elbv2_client, s3_client, iam_client, dry_run=False):
+    def __init__(self, ec2_client, elb_client, elbv2_client, s3_client, iam_client, pricing_client, dry_run=False):
         self.ec2_client = ec2_client
         self.elb_client = elb_client
         self.elbv2_client = elbv2_client
         self.s3_client = s3_client
         self.iam_client = iam_client
         self.dry_run = dry_run
-        self.delete = Delete(ec2_client, elb_client, elbv2_client, s3_client, iam_client, dry_run)
+        self.delete = Delete(ec2_client, elb_client, elbv2_client, s3_client, iam_client, pricing_client, dry_run)
 
     def eliminate(self):
         for reservation in self.ec2_client.describe_instances()["Reservations"]:
