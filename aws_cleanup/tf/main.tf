@@ -105,6 +105,36 @@ resource "aws_iam_user_policy" "cleanup_user_lambda_deploy" {
   })
 }
 
+resource "aws_iam_user_policy" "cleanup_user_report_bucket" {
+  name = "${var.user_name}-report-bucket"
+  user = aws_iam_user.cleanup_user.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "ReportBucketList"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket",
+        ]
+        Resource = aws_s3_bucket.report_bucket.arn
+      },
+      {
+        Sid    = "ReportBucketReadWrite"
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:HeadObject",
+          "s3:PutObject",
+          "s3:DeleteObject",
+        ]
+        Resource = "${aws_s3_bucket.report_bucket.arn}/*"
+      },
+    ]
+  })
+}
+
 # ---------------------------------------------------------------------------
 # Lambda execution role — carries all permissions the cleanup script needs
 # ---------------------------------------------------------------------------
