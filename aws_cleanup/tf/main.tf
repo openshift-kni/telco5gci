@@ -42,10 +42,10 @@ variable "schedule_expression" {
   default     = "rate(7 days)"
 }
 
-variable "mail_recipient" {
-  description = "Email recipient for the Lambda cleanup report"
+variable "report_bucket_name" {
+  description = "S3 bucket name for cleanup reports"
   type        = string
-  default     = "cnf-devel@redhat.com"
+  default     = "telco-ci-cleanup-reports"
 }
 
 # ---------------------------------------------------------------------------
@@ -281,24 +281,48 @@ resource "aws_iam_role_policy" "cleanup_pricing" {
   })
 }
 
-resource "aws_iam_role_policy" "cleanup_ses" {
-  name = "cleanup-ses"
+resource "aws_iam_role_policy" "cleanup_report_bucket" {
+  name = "cleanup-report-bucket"
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "SES"
+        Sid    = "ReportBucketWrite"
         Effect = "Allow"
         Action = [
-          "ses:SendEmail",
-          "ses:SendRawEmail",
+          "s3:PutObject",
         ]
-        Resource = "*"
+        Resource = "${aws_s3_bucket.report_bucket.arn}/*"
       },
     ]
   })
+}
+
+# ---------------------------------------------------------------------------
+# S3 bucket for reports
+# ---------------------------------------------------------------------------
+
+resource "aws_s3_bucket" "report_bucket" {
+  bucket = var.report_bucket_name
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "report_bucket_lifecycle" {
+  bucket = aws_s3_bucket.report_bucket.id
+
+  rule {
+    id     = "cleanup-old-reports"
+    status = "Enabled"
+
+    filter {
+      prefix = "reports/"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------
@@ -337,10 +361,9 @@ resource "aws_cloudwatch_event_target" "cleanup_target" {
   arn  = aws_lambda_function.cleanup.arn
 
   input = jsonencode({
-    tag       = "ci-op-"
-    dry_run   = false
-    send_mail = true
-    to        = var.mail_recipient
+    tag           = "ci-op-"
+    dry_run       = false
+    report_bucket = var.report_bucket_name
   })
 }
 
@@ -375,4 +398,8 @@ output "lambda_role_arn" {
 
 output "lambda_function_name" {
   value = aws_lambda_function.cleanup.function_name
+}
+
+output "report_bucket" {
+  value = aws_s3_bucket.report_bucket.bucket
 }
