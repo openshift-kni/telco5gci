@@ -3,7 +3,11 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'aws_cleanup/**'
   pull_request:
+    paths-ignore:
+      - 'aws_cleanup/**'
   # schedule:
   #   - cron: 3 0 * * *  # Run daily at 0:03 UTC
 

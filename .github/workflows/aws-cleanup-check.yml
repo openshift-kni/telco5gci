@@ -1,0 +1,42 @@
+name: Check AWS cleanup script
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'aws_cleanup/**'
+  pull_request:
+    paths:
+      - 'aws_cleanup/**'
+
+jobs:
+  check-aws-cleanup:
+    name: Python checks for aws_delete.py
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install boto3 pyflakes flake8
+
+      - name: Check syntax
+        run: python -m py_compile aws_cleanup/aws_delete.py
+
+      - name: Run pyflakes
+        run: python -m pyflakes aws_cleanup/aws_delete.py
+
+      - name: Run flake8
+        run: python -m flake8 aws_cleanup/aws_delete.py --max-line-length 120
+
+      - name: Verify imports
+        run: python -c "import aws_cleanup.aws_delete"
+
+      - name: Check CLI --help
+        run: python aws_cleanup/aws_delete.py --help
