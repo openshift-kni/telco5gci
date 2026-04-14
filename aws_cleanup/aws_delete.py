@@ -1183,10 +1183,11 @@ def parse_args():
     )
     parser.add_argument("--dry-run", action="store_true", help="Dry run mode")
     parser.add_argument("--send-email", action="store_true", help="Send email report", default=False)
+    parser.add_argument("--to", default="sshnaidm@redhat.com", help="Email address to send report to (default: sshnaidm@redhat.com)")
     return parser.parse_args()
 
 
-def create_report():
+def create_report(recipient):
     # Create report content first
     report = (
         f"Hi,\nToday's cleanup run has saved you:\n\n"
@@ -1209,7 +1210,7 @@ def create_report():
     msg = MIMEMultipart()
     msg["Subject"] = f"💲 AWS Resource Deletion Report - saved ${TOTAL_SAVED['total'] * 24 * 30:.2f} USD per month"
     msg["From"] = "telco5g-ci@redhat.com"
-    msg["To"] = "sshnaidm@redhat.com"
+    msg["To"] = recipient
     msg.attach(MIMEText(report, "plain"))
     # msg.attach(MIMEApplication(open('report.txt', 'rb').read(), Name='report.txt'))
     with smtplib.SMTP("smtp.corp.redhat.com", 25) as server:
@@ -1245,7 +1246,7 @@ def main():
         f"${(TOTAL_SAVED['total'] * 24 * 365):.2f} USD per year"
     )
     if args.send_email:
-        create_report()
+        create_report(args.to)
 
 
 if __name__ == "__main__":
