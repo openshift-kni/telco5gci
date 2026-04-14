@@ -1239,9 +1239,7 @@ def upload_report_s3(bucket):
     for key, value in DELETED_RESOURCES.items():
         if value:
             report += f"  {key}: {value}\n"
-    report += (
-        f"\nThanks,\nAWS Cleanup Bot\nSend any questions or comments to sshnaidm@redhat.com"
-    )
+    report += "\nThanks,\nAWS Cleanup Bot\nSend any questions or comments to sshnaidm@redhat.com"
 
     s3_client.put_object(
         Bucket=bucket,
@@ -1300,8 +1298,7 @@ def lambda_handler(event, context):
         s3_client = boto3.client("s3", region_name=region)
         iam_client = boto3.client("iam", region_name=region)
         q = AWSResourceDeletion(
-            ec2_client, elb_client, elbv2_client, s3_client, iam_client,
-            pricing_client, tag, dry_run
+            ec2_client, elb_client, elbv2_client, s3_client, iam_client, pricing_client, tag, dry_run
         )
         q.run()
 
