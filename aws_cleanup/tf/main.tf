@@ -39,7 +39,7 @@ variable "lambda_role_name" {
 variable "schedule_expression" {
   description = "EventBridge schedule expression for the cleanup Lambda"
   type        = string
-  default     = "rate(7 days)"
+  default     = "cron(0 10 ? * MON *)"
 }
 
 variable "report_bucket_name" {
