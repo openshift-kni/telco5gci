@@ -4,7 +4,6 @@ import time
 import boto3
 from botocore.exceptions import ClientError
 
-
 EMPTY_LEFTOVERS = {
     "load_balancer": [],
     "ec2_instance": [],
@@ -180,8 +179,13 @@ class AWSResourceDeletion:
                     if not result:
                         leftovers["s3"].append(bucket)
         expired_resources = AWSExpiredResources(
-            self.ec2_client, self.elb_client, self.elbv2_client, self.s3_client, self.iam_client, self.pricing_client,
-            self.dry_run
+            self.ec2_client,
+            self.elb_client,
+            self.elbv2_client,
+            self.s3_client,
+            self.iam_client,
+            self.pricing_client,
+            self.dry_run,
         )
         expired_resources.eliminate()
         print(f"All resources deleted for region {self.ec2_client.meta.region_name}")
@@ -1183,7 +1187,9 @@ def parse_args():
     )
     parser.add_argument("--dry-run", action="store_true", help="Dry run mode")
     parser.add_argument("--send-email", action="store_true", help="Send email report", default=False)
-    parser.add_argument("--to", default="sshnaidm@redhat.com", help="Email address to send report to (default: sshnaidm@redhat.com)")
+    parser.add_argument(
+        "--to", default="sshnaidm@redhat.com", help="Email address to send report to (default: sshnaidm@redhat.com)"
+    )
     return parser.parse_args()
 
 
