@@ -1223,31 +1223,33 @@ def create_report(recipient):
         server.sendmail(msg["From"], msg["To"], msg.as_string())
 
 
-def create_report_ses(recipient):
-    """Send report via AWS SES (used by Lambda handler)."""
+def upload_report_s3(bucket):
+    """Upload report to S3 (used by Lambda handler)."""
+    today = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    s3_client = boto3.client("s3", region_name="us-east-1")
+
     report = (
         f"Hi,\nToday's cleanup run has saved you:\n\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24):.2f} USD per day,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24 * 7):.2f} USD per week,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24 * 30):.2f} USD per month,\n"
         f"💰 ${(TOTAL_SAVED['total'] * 24 * 365):.2f} USD per year\n\n"
-        f"Thanks,\nAWS Cleanup Bot\nSend any questions or comments to sshnaidm@redhat.com"
+        f"Deleted resources:\n"
+    )
+    for key, value in DELETED_RESOURCES.items():
+        if value:
+            report += f"  {key}: {value}\n"
+    report += (
+        f"\nThanks,\nAWS Cleanup Bot\nSend any questions or comments to sshnaidm@redhat.com"
     )
 
-    with open("/tmp/report.txt", "w") as f:
-        f.write(report)
-
-    ses_client = boto3.client("ses", region_name="us-east-1")
-    ses_client.send_email(
-        Source="telco5g-ci@redhat.com",
-        Destination={"ToAddresses": [recipient]},
-        Message={
-            "Subject": {
-                "Data": f"💲 AWS Resource Deletion Report - saved ${TOTAL_SAVED['total'] * 24 * 30:.2f} USD per month"
-            },
-            "Body": {"Text": {"Data": report}},
-        },
+    s3_client.put_object(
+        Bucket=bucket,
+        Key=f"reports/{today}.txt",
+        Body=report.encode("utf-8"),
+        ContentType="text/plain",
     )
+    print(f"Report uploaded to s3://{bucket}/reports/{today}.txt")
 
 
 def main():
@@ -1286,10 +1288,10 @@ def lambda_handler(event, context):
     """AWS Lambda entry point. Config via event JSON."""
     tag = event.get("tag", "ci-op-")
     dry_run = event.get("dry_run", False)
-    send_mail = event.get("send_mail", True)
-    recipient = event.get("to", "cnf-devel@redhat.com")
+    report_bucket = event.get("report_bucket", "telco-ci-cleanup-reports")
 
-    regions = ["us-east-1", "us-east-2", "us-west-1", "us-west-2"]
+    region_arg = event.get("region")
+    regions = [region_arg] if region_arg else ["us-east-1", "us-east-2", "us-west-1", "us-west-2"]
     pricing_client = boto3.client("pricing", region_name="us-east-1")
     for region in regions:
         ec2_client = boto3.client("ec2", region_name=region)
@@ -1313,8 +1315,7 @@ def lambda_handler(event, context):
         f"${(TOTAL_SAVED['total'] * 24 * 365):.2f} USD per year"
     )
 
-    if send_mail:
-        create_report_ses(recipient)
+    upload_report_s3(report_bucket)
 
     return {key: value for key, value in DELETED_RESOURCES.items()}
 
